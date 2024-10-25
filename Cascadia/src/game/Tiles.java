@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 public class Tiles {
 	private final String landscape;
-	private ArrayList<String> animalAccepted;
+	private final ArrayList<String> animalAccepted;
 	private WildlifeToken animal;
 	
 	Tiles(ArrayList<String> animalAccepted, WildlifeToken wildlife, String landscape) {
