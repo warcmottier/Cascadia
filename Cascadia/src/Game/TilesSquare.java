@@ -10,12 +10,12 @@ public class TilesSquare {
 	private final Set<String> animalAccepted;
 	private WildlifeToken animal;
 	
-	TilesSquare(Set<String> animalAccepted, WildlifeToken wildLife, String landscape) {
+	public TilesSquare(Set<String> animalAccepted, WildlifeToken wildlife, String landscape) {
 		Objects.requireNonNull(animalAccepted);
 		Objects.requireNonNull(landscape);
 		this.landscape = landscape;
 		this.animalAccepted = animalAccepted;
-		this.animal = wildLife;
+		this.animal = wildlife;
 	}
 	
 	public WildlifeToken animal() {
