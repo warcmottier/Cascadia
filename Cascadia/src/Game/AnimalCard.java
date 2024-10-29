@@ -58,24 +58,24 @@ public record AnimalCard(String animal, int cardNumber, int variant) {
     for(var key : player.keySet()) {
       if(player.get(key) != null && !visited.contains(key)) { //On a trouvé un truc pas vide pas déjà dans un groupe
         //On calcule la taille du groupe et on l'ajoute à la liste des tailles de groupes
-        int groupSize = recursiveStuff(key, player, visited); //Faut changer le nom
+        var groupSize = isNeighborHaveToken(key, player, visited);
         groupSizes.add(groupSize);
       }
     }
     return groupSizes;
   }
   
-  private int recursiveStuff(Coordonate current, HashMap<Coordonate, TilesSquare> player, Set<Coordonate> visited) {  //Faut toujours changer le nom
+  private int isNeighborHaveToken(Coordonate current, HashMap<Coordonate, TilesSquare> player, Set<Coordonate> visited) {
     Objects.requireNonNull(current);
     Objects.requireNonNull(player);
     Objects.requireNonNull(visited);
     visited.add(current);
     int[][] directions = {{1,0}, {-1,0}, {0,1}, {0, -1}}; //Pour éviter les if dans neighbour on pourra faire comme ça je pense (j'ai fais du C mais je sais pas comment ça marche les deux dimensions en Java et Eclipse dit rien)
-    int size = 1;
-    for(int[] direction : directions) { //Hello, Darkness my old friend...
-      Coordonate neighbour = new Coordonate(current.x() + direction[0], current.y() + direction[1]);
+    var size = 1;
+    for(var direction : directions) { //Hello, Darkness my old friend...
+      var neighbour = new Coordonate(current.x() + direction[0], current.y() + direction[1]);
       if(player.containsKey(neighbour) && player.get(neighbour) != null && !visited.contains(neighbour)) { //Si c'est pas un endroit vide et qu'il y a un animal et qu'on l'as pas déjà vus
-        size += recursiveStuff(neighbour, player, visited); //On regarde du coup les voisins de celui-là
+        size += isNeighborHaveToken(neighbour, player, visited); //On regarde du coup les voisins de celui-là
       }
     }
     return size;

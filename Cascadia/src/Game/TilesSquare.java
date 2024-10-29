@@ -27,7 +27,7 @@ public class TilesSquare {
 		animal = wildLife;
 	}
 	
-	public static Set<Coordonate> notneighbour(Coordonate currentTiles, HashMap<Coordonate, TilesSquare> tilesMap){
+	public static Set<Coordonate> notneighbour(Coordonate currentTiles, HashMap<Coordonate, TilesSquare> tilesMap) {
 		Objects.requireNonNull(currentTiles);
 		Objects.requireNonNull(tilesMap);
 		Set<Coordonate> neighbour = new HashSet<Coordonate>();
@@ -50,7 +50,7 @@ public class TilesSquare {
 		return neighbour;
 	}
 	
-	public static Set<Coordonate> neighbour(Coordonate currentTiles, HashMap<Coordonate, TilesSquare> tilesMap){
+	public static Set<Coordonate> neighbour(Coordonate currentTiles, HashMap<Coordonate, TilesSquare> tilesMap) {
 		Objects.requireNonNull(currentTiles);
 		Objects.requireNonNull(tilesMap);
 		Set<Coordonate> neighbour = new HashSet<Coordonate>();
@@ -75,6 +75,6 @@ public class TilesSquare {
 	
 	@Override
 	public String toString() {
-		return landscape + " " + animalAccepted + " " + animal;
+		return "landscape : " + landscape + ", " + " animal accepted : " + animalAccepted + ", " + " animal poser : " + animal;
 	}
 }
