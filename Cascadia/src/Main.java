@@ -1,12 +1,11 @@
 import Game.*;
-
-import java.net.CookieManager;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
+import java.util.Objects;
+import java.util.Scanner;
 
 public class Main {
 	
@@ -29,7 +28,7 @@ public class Main {
 		return tiles;
 	}
 	
-	private HashMap<WildlifeToken, Integer> initializationWildlifeToken() {
+	private static HashMap<WildlifeToken, Integer> initializationWildlifeToken() {
 		var wildlife = new HashMap<WildlifeToken, Integer>();
 		wildlife.put(new WildlifeToken("Ours"), 20);
 		wildlife.put(new WildlifeToken("Saumon"), 20);
@@ -39,7 +38,7 @@ public class Main {
 		return wildlife;
 	}
 	
-	private static List<HashMap<Coordonate, TilesSquare>> listTilesBegin(){
+	private static HashMap<Coordonate, TilesSquare> tilesBegin(int n){
 		var tilesBegin = new ArrayList<HashMap<Coordonate, TilesSquare>>();
 		String[][] animalAndLandscapeBegin = {{"Ours", "Saumon", "Prairie"}, {"Renard", "Buse", "Foret"}, {"Wapiti", "Ours", "Montagne"}, 
 				{"Wapiti", "Saumon", "Foret"}, {"Buse", "Ours", "Riviere"}, {"Buse", "Wapiti", "Marais"}, 
@@ -57,14 +56,48 @@ public class Main {
 				i = 0;
 			}
 		}
-		return tilesBegin;
+		return tilesBegin.get(n);
 	}
 	
-	private void algorythmSquare() {
+	private static int parameter(Scanner scan) {
+		int enter;
+		System.out.println("Cascadia terminal version");
+		System.out.println("entrez 1 pour la variante famille ou 2 pour la variante intermediaire");
+		for(enter = scan.nextInt(); enter != 1 && enter != 2; enter = scan.nextInt()) {
+			System.out.println("mauvaise entrée");
+		}
+		return enter;
+	}
+	
+	private static HashMap<Coordonate, TilesSquare> assignedPlayer(int player, int[] forbidenNumber, Scanner scan) {
+		int enter = -1;
+		System.out.println("J" + player + " entrez un nombre entier entre 0 et 4");
+		for(enter = scan.nextInt(); enter < 0 && enter > 4 || enter == forbidenNumber[0]; enter = scan.nextInt()) {
+			System.out.println("mauvaise entrée");
+		}
+		forbidenNumber[0] = enter;
+		return tilesBegin(enter);
+	}
+	
+	//discard = 0 if not overpopulation and numberDiscard = 4 if all wildlife or = 3 if 3 same wildlife or = 0 for the rest
+	private void craftPickaxe(HashMap<TilesSquare, WildlifeToken> pickaxe, int discard, int numberDiscard) {
 		
 	}
 	
-	public static void main(String[] args) {
+	private static void algorythmSquare() {
+		var scan = new Scanner(System.in);
+		int[] forbidenNumber = {-1};
+		var card = parameter(scan);
+		var player1 = assignedPlayer(1, forbidenNumber, scan);
+		var player2 = assignedPlayer(2, forbidenNumber, scan);
+		var wildlifeToken = initializationWildlifeToken();
+		var tiles = initializationTiles();
+		var pickaxe = new HashMap<TilesSquare, WildlifeToken>(); //pickaxe, obviously the correct tool to draw tiles
+		
+		scan.close();
+	}
 	
+	public static void main(String[] args) {
+		algorythmSquare();
 	}
 }
