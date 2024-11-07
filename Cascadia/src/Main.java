@@ -38,7 +38,7 @@ public class Main {
 		return wildlife;
 	}
 	
-	private static HashMap<Coordonate, TilesSquare> tilesBegin(int n){
+	/*private static HashMap<Coordonate, TilesSquare> tilesBegin(int n){
 		var tilesBegin = new ArrayList<HashMap<Coordonate, TilesSquare>>();
 		String[][] animalAndLandscapeBegin = {{"Ours", "Saumon", "Prairie"}, {"Renard", "Buse", "Foret"}, {"Wapiti", "Ours", "Montagne"}, 
 				{"Wapiti", "Saumon", "Foret"}, {"Buse", "Ours", "Riviere"}, {"Buse", "Wapiti", "Marais"}, 
@@ -57,6 +57,25 @@ public class Main {
 			}
 		}
 		return tilesBegin.get(n);
+	}*/
+	
+	//TO DO
+	private HashMap<Coordonate, TilesSquare> setMap(String[][] animalAndLandscapeBegin, int n) {
+		
+		
+	}
+	
+	//TO DO
+	private static HashMap<Coordonate, TilesSquare> tilesBegin(int n) {
+		String[][] animalAndLandscapeBegin1 = {{"Ours", "Saumon", "Prairie"}, {"Renard", "Buse", "Foret"}, {"Wapiti", "Ours", "Montagne"}};
+		String[][] animalAndLandscapeBegin2 = {{"Wapiti", "Saumon", "Foret"}, {"Buse", "Ours", "Riviere"}, {"Buse", "Wapiti", "Marais"}};
+		String[][] animalAndLandscapeBegin3 = {{"wapiti", "Ours", "Riviere"}, {"Renard", "Saumon", "Marais"}, {"Renard", "Ours", "Montagne"}};
+		String[][] animalAndLandscapeBegin4 = {{"Saumon", "Wapiti", "Prairie"}, {"Renard", "Wapiti", "Riviere"}, {"Ours", "Buse", "Foret"}};
+		String[][] animalAndLandscapeBegin5 = {{"Buse", "Saumon", "Prairie"}, {"Buse", "Ours", "Marais"}, {"Renard", "Wapiti", "Riviere"}};
+		var map = new HashMap<Coordonate, TilesSquare>();
+		if(n == 1) {
+			
+		}
 	}
 	
 	private static int parameter(Scanner scan) {
