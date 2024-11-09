@@ -80,9 +80,9 @@ public class Main {
 	}
 	
 	private static HashMap<Coordonate, TilesSquare> assignedPlayer(int player, int[] forbidenNumber, Scanner scan) {
-		int enter = -1;
-		System.out.println("J" + player + " entrez un nombre entier entre 0 et 4");
-		for(enter = scan.nextInt(); enter < 0 && enter > 4 || enter == forbidenNumber[0]; enter = scan.nextInt()) {
+		var enter = -1;
+		System.out.println("J" + player + " entrez un nombre entier entre 1 et 5");
+		for(enter = scan.nextInt(); enter < 1 && enter > 5 || enter == forbidenNumber[0]; enter = scan.nextInt()) {
 			System.out.println("mauvaise entrée");
 		}
 		forbidenNumber[0] = enter;
@@ -168,9 +168,98 @@ public class Main {
 		}
 	}
 	
+	private static void printPickaxe(HashMap<TilesSquare, WildlifeToken> pickaxe) {
+	  var integer = 1;
+	  for(var elem : pickaxe.entrySet()) {
+	    System.out.println(integer + " - " +elem);
+	    integer++;
+	  }
+    System.out.println("----------------------------");
+	  System.out.println("Entrez le numéro de la pioche voulue :");
+	}
+	
+	public static HashMap<TilesSquare, WildlifeToken> pickPickaxe(HashMap<TilesSquare, WildlifeToken> pickaxe, Scanner scan) {
+	  var picked = new HashMap<TilesSquare, WildlifeToken>();
+	  var enter = -1;
+	  var arrayPickaxe = pickaxe.keySet().toArray();
+	  printPickaxe(pickaxe);
+	  for(enter = scan.nextInt(); enter < 1 && enter > 4;) {
+      System.out.println("mauvaise entrée");
+    }
+    System.out.println("----------------------------");
+	  picked.put((TilesSquare) arrayPickaxe[enter - 1], pickaxe.get(arrayPickaxe[enter - 1]));
+	  return picked;
+	}
+	
+	private static Set<Coordonate> allAvailablesTilesMove(HashMap<Coordonate, TilesSquare> player) {
+	  Set<Coordonate> moves = new HashSet<>();
+	  for(var coordonates : player.keySet()) {
+	    moves.addAll(TilesSquare.notneighbour(coordonates, player));
+	  }
+	  return moves;
+	}
+	
+  public static Set<Coordonate> wildlifeTokenAvailablesSlots(HashMap<Coordonate, TilesSquare> tilesMap, WildlifeToken wildlife) {
+    Set<Coordonate> results = new HashSet<>();
+    for(var elems : tilesMap.keySet()) {
+      if(tilesMap.get(elems).animal() == null && tilesMap.get(elems).animalAccepted().contains(wildlife.animal())) {
+        results.add(elems);
+      }
+    }
+    return results;
+  }
+	
+  private static void makeTileMove(HashMap<Coordonate, TilesSquare> player, TilesSquare tile, Scanner scan) {
+    Set<Coordonate> moves = allAvailablesTilesMove(player);
+    var i = 1;
+    int enter;
+    for(var elem : moves) {
+      System.out.println(i + " - " + elem);
+      i++;
+    }
+    System.out.println("Entrez le numéro de la coordonnée désirée pour la tuile :");
+    for(enter = scan.nextInt(); enter < 1 && enter > moves.size();) {
+      System.out.println("mauvaise entrée");
+    }
+    System.out.println("----------------------------");
+    player.put((Coordonate) moves.toArray()[enter - 1], tile);
+  }
+  
+  private static void makeWildlifeMove(HashMap<Coordonate, TilesSquare> player, WildlifeToken wildlife, Scanner scan) {
+    Set<Coordonate> moves = wildlifeTokenAvailablesSlots(player, wildlife);
+    var i = 1;
+    int enter;
+    for(var elem : moves) {
+      System.out.println(i + " - " + elem);
+      i++;
+    }
+    System.out.println("Entrez le numéro de la coordonnée désirée pour le jeton faune :");
+    for(enter = scan.nextInt(); enter < 1 && enter > moves.size();) {
+      System.out.println("mauvaise entrée");
+    }
+    System.out.println("----------------------------");
+    player.get(moves.toArray()[enter - 1]).setWildlifeToken(wildlife);
+  }
+  
+  private static void printPlayer(HashMap<Coordonate, TilesSquare> player) {
+    for(var elem : player.entrySet()) {
+      System.out.println(elem);
+    }
+  }
+  
+  private static void makeMove(HashMap<Coordonate, TilesSquare> player, WildlifeToken wildlife, TilesSquare tile, Scanner scan) {
+    printPlayer(player);
+    System.out.println("----------------------------");
+    makeTileMove(player, tile, scan);
+    printPlayer(player);
+    System.out.println("----------------------------");
+    makeWildlifeMove(player, wildlife, scan);
+  }
+  
 	public static void algorythmSquare() {
 		var scan = new Scanner(System.in);
 		int[] forbidenNumber = {-1};
+		var picked = new HashMap<TilesSquare, WildlifeToken>();
 		var card = parameter(scan);
 		var player1 = assignedPlayer(1, forbidenNumber, scan);
 		var player2 = assignedPlayer(2, forbidenNumber, scan);
@@ -178,6 +267,21 @@ public class Main {
 		var tiles = initializationTiles();
 		var pickaxe = new HashMap<TilesSquare, WildlifeToken>(); //pickaxe, obviously the correct tool to draw tiles
 		craftPickaxe(pickaxe, tiles, wildlifeTokens, null, null);
+		for(var i = 0; i < 20; i++) {
+		  System.out.println("Tour numéro " + (i + 1) + "\n");
+		  System.out.println("Tour du J1 :\n");
+		  printPlayer(player1);
+      System.out.println("----------------------------");
+		  picked = pickPickaxe(pickaxe, scan);
+		  craftPickaxe(pickaxe, tiles, wildlifeTokens, picked.keySet().iterator().next(), null);
+		  makeMove(player1, picked.get(picked.keySet().iterator().next()), picked.keySet().iterator().next(), scan);
+      System.out.println("Tour du J2 :\n");
+      printPlayer(player2);
+      System.out.println("----------------------------");
+      picked = pickPickaxe(pickaxe, scan);
+      craftPickaxe(pickaxe, tiles, wildlifeTokens, picked.keySet().iterator().next(), null);
+      makeMove(player2, picked.get(picked.keySet().iterator().next()), picked.keySet().iterator().next(), scan);
+		}
 		scan.close();
 	}
 	

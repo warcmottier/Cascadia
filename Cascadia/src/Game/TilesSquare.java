@@ -22,6 +22,10 @@ public class TilesSquare {
 		return animal;
 	}
 	
+	public Set<String> animalAccepted() {
+	  return animalAccepted;
+	}
+	
 	public void setWildlifeToken(WildlifeToken wildLife) {
 		Objects.requireNonNull(wildLife);
 		animal = wildLife;
