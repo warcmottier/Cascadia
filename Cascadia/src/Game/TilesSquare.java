@@ -18,6 +18,10 @@ public class TilesSquare {
 		this.animal = wildlife;
 	}
 	
+	public String landscape() {
+	  return landscape;
+	}
+	
 	public WildlifeToken animal() {
 		return animal;
 	}
