@@ -14,6 +14,7 @@ public record AnimalCard(String animal, int cardNumber, int variant) {
    * @return int number of points given to the player by this card
    */
   public int countCardScore(HashMap<Coordonate, TilesSquare> player) {
+    Objects.requireNonNull(player);
     if(variant == 1) {
       return cardFamilly(player);
     }
@@ -30,11 +31,10 @@ public record AnimalCard(String animal, int cardNumber, int variant) {
   }
   
   /**
-   * @brief Calcul the number of points attributed by the familly card
+   * Calcul the number of points attributed by the familly card
    * @return int number of points given to the player
    */
   private int cardFamilly(HashMap<Coordonate, TilesSquare> player) {
-    Objects.requireNonNull(player);
     var score = 0;
     List<Integer> groupSizes = groupSizesSquare(player);
     for(var groupSize : groupSizes) {
@@ -78,11 +78,10 @@ public record AnimalCard(String animal, int cardNumber, int variant) {
   }
   
   /**
-   * @brief Calcul the number of points attributed by the intermediate card
+   * Calcul the number of points attributed by the intermediate card
    * @return int number of points given to the player
    */
   private int cardMedium(HashMap<Coordonate, TilesSquare> player) {
-    Objects.requireNonNull(player);
     var score = 0;
     List<Integer> groupSizes = groupSizesSquare(player);
     for(var groupSize : groupSizes) {
@@ -100,9 +99,10 @@ public record AnimalCard(String animal, int cardNumber, int variant) {
   }
   
   /**
-   * @brief Select the correct way to calculate the number of points according to the
+   * Select the correct way to calculate the number of points according to the
    bear card currently in the game
-   * @param numeroCarte
+   * @param Cardnumber the specific animal card
+   * @param player the HashMap containing the player board
    * @return int number of points attributed
    */
   private int numberCardOurs(int cardNumber, HashMap<Coordonate, TilesSquare> player) {
@@ -122,7 +122,7 @@ public record AnimalCard(String animal, int cardNumber, int variant) {
   }
   
   /**
-   * @brief Calculate the number of points attributed to the player by the bear
+   * Calculate the number of points attributed to the player by the bear
    card A
    * @return int number of points
    */
@@ -132,7 +132,7 @@ public record AnimalCard(String animal, int cardNumber, int variant) {
   }
   
   /**
-   * @brief Calculate the number of points attributed to the player by the bear
+   * Calculate the number of points attributed to the player by the bear
    card B
    * @return int number of points
    */
@@ -142,7 +142,7 @@ public record AnimalCard(String animal, int cardNumber, int variant) {
   }
   
   /**
-   * @brief Calculate the number of points attributed to the player by the bear
+   * Calculate the number of points attributed to the player by the bear
    card C
    * @return int number of points
    */
@@ -152,7 +152,7 @@ public record AnimalCard(String animal, int cardNumber, int variant) {
   }
   
   /**
-   * @brief Calculate the number of points attributed to the player by the bear
+   * Calculate the number of points attributed to the player by the bear
    card D
    * @return int number of points
    */
@@ -162,9 +162,11 @@ public record AnimalCard(String animal, int cardNumber, int variant) {
   }
   
   /**
-   * @brief Select the correct way to calculate the number of points according to the
+   * Select the correct way to calculate the number of points according to the
    salmon card currently in the game
-   * @param numeroCarte
+   * @param Cardnumber the specific animal card
+   * @param player the HashMap containing the player board
+   * 
    * @return int number of points attributed
    */
   private int numberCardSaumon(int Cardnumber, HashMap<Coordonate, TilesSquare> player) {
