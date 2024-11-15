@@ -8,7 +8,7 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
-public class AlgoSquare {
+public final class AlgoSquare {
   
   private static Set<String> generateAnimalAccepeted() {
     String[] animal = {"Ours", "Saumon", "Wapiti", "Buse", "Renard"};
@@ -20,7 +20,7 @@ public class AlgoSquare {
     return animalAccepted;
   }
   
-  private static List<TilesSquare> initializationTiles() {
+  public static List<TilesSquare> initializationTiles() {
     String[] landscape = {"Prairie", "Marais", "Riviere", "Montagne", "Foret"};
     List<TilesSquare> tiles = new ArrayList<>();
     for(var i = 0; i < 43; i++) {
@@ -29,7 +29,7 @@ public class AlgoSquare {
     return tiles;
   }
   
-  private static HashMap<WildlifeToken, Integer> initializationWildlifeToken() {
+  public static HashMap<WildlifeToken, Integer> initializationWildlifeToken() {
     var wildlife = new HashMap<WildlifeToken, Integer>();
     wildlife.put(new WildlifeToken("Ours"), 20);
     wildlife.put(new WildlifeToken("Saumon"), 20);

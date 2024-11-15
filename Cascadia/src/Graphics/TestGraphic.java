@@ -16,8 +16,15 @@ public class TestGraphic {
     context.renderFrame(graphics -> {
       graphics.setColor(Color.RED);
       graphics.fill(rectangle);
+      graphics.setColor(Color.MAGENTA);
+      graphics.drawString("COUCOU THOMAS HAS AGAIN SEE SOME BULLSHIT", 600, 600);
     });
     context.pollOrWaitEvent(2000);
+    
+    context.renderFrame(graphics -> {
+    	graphics.setColor(Color.PINK);
+    	graphics.fill(new Rectangle2D.Float(0, 0, width, height));
+    });
   }
   
   public static void main(String[] args) {
