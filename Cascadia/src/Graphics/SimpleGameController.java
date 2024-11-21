@@ -23,10 +23,17 @@ public class SimpleGameController {
 		var screenInfo = context.getScreenInfo();
     var width = screenInfo.width();
     var height = screenInfo.height();
-    var marge = 50;
+    var marge = 50; 
+    GameView gameView = new SimpleGameViewSquare();
     player1.put(new Coordonate(0, 0), tiles.get(0));
     player1.put(new Coordonate(1, 0), tiles.get(1));
     player1.put(new Coordonate(2, 0), tiles.get(2));
+    player1.put(new Coordonate(-1, 0), tiles.get(3));
+    player1.put(new Coordonate(2, 1), tiles.get(4));
+    player1.put(new Coordonate(2, 2), tiles.get(5));
+    player1.put(new Coordonate(2, 3), tiles.get(6));
+    player1.put(new Coordonate(0, -1), tiles.get(7));
+    gameView.drawPlayer(context, player1, marge, width, height);   
 	}
 	
 }

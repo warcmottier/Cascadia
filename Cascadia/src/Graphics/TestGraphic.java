@@ -28,6 +28,6 @@ public class TestGraphic {
   }
   
   public static void main(String[] args) {
-    Application.run(Color.PINK, TestGraphic::test);
+    Application.run(Color.PINK, SimpleGameController::game);
   }
 }

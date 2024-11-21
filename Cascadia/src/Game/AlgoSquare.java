@@ -21,7 +21,7 @@ public final class AlgoSquare {
   }
   
   public static List<TilesSquare> initializationTiles() {
-    String[] landscape = {"Prairie", "Marais", "Riviere", "Montagne", "Foret"};
+    String[] landscape = {"Prairie", "Marais", "Riviere", "Montagne", "Forêt"};
     List<TilesSquare> tiles = new ArrayList<>();
     for(var i = 0; i < 43; i++) {
       tiles.add(new TilesSquare(generateAnimalAccepeted(), null, landscape[(int) (Math.random() * 5)]));
@@ -50,10 +50,10 @@ public final class AlgoSquare {
   }
   
   private static HashMap<Coordonate, TilesSquare> tilesBegin(int n) {
-    String[][] animalAndLandscapeBegin1 = {{"Ours", "Saumon", "Prairie"}, {"Renard", "Buse", "Foret"}, {"Wapiti", "Ours", "Montagne"}};
-    String[][] animalAndLandscapeBegin2 = {{"Wapiti", "Saumon", "Foret"}, {"Buse", "Ours", "Riviere"}, {"Buse", "Wapiti", "Marais"}};
+    String[][] animalAndLandscapeBegin1 = {{"Ours", "Saumon", "Prairie"}, {"Renard", "Buse", "Forêt"}, {"Wapiti", "Ours", "Montagne"}};
+    String[][] animalAndLandscapeBegin2 = {{"Wapiti", "Saumon", "Forêt"}, {"Buse", "Ours", "Riviere"}, {"Buse", "Wapiti", "Marais"}};
     String[][] animalAndLandscapeBegin3 = {{"Wapiti", "Ours", "Riviere"}, {"Renard", "Saumon", "Marais"}, {"Renard", "Ours", "Montagne"}};
-    String[][] animalAndLandscapeBegin4 = {{"Saumon", "Wapiti", "Prairie"}, {"Renard", "Wapiti", "Riviere"}, {"Ours", "Buse", "Foret"}};
+    String[][] animalAndLandscapeBegin4 = {{"Saumon", "Wapiti", "Prairie"}, {"Renard", "Wapiti", "Riviere"}, {"Ours", "Buse", "Forêt"}};
     String[][] animalAndLandscapeBegin5 = {{"Buse", "Saumon", "Prairie"}, {"Buse", "Ours", "Marais"}, {"Renard", "Wapiti", "Riviere"}};
     if(n == 1) {
       return setMap(animalAndLandscapeBegin1);
@@ -385,7 +385,7 @@ public final class AlgoSquare {
   private static void countLandscapeScore(HashMap<Coordonate, TilesSquare> player1, HashMap<Coordonate, TilesSquare> player2, int[] resultPlayer) {
     int landscapeSizePlayer1 = 0;
     int landscapeSizePlayer2 = 0;
-    String[] landscape = {"Prairie", "Marais", "Riviere", "Montagne", "Foret"};
+    String[] landscape = {"Prairie", "Marais", "Riviere", "Montagne", "Forêt"};
     for(var elem : landscape) {
       landscapeSizePlayer1 = groupSizesLandscape(player1, elem);
       landscapeSizePlayer2 = groupSizesLandscape(player2, elem);
