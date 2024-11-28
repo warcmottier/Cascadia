@@ -1,0 +1,26 @@
+package game;
+
+public enum AnimalCard {
+	FAMILY,
+	INTERMEDIATE,
+	ELKA,
+	ELKB,
+	ELKC,
+	ELKD,
+	BEARA,
+	BEARB,
+	BEARC,
+	BEARD,
+	NOZZLEA,
+	NOZZLEB,
+	NOZZLEC,
+	NOZZLED,
+	SALMONA,
+	SALMONB,
+	SALMONC,
+	SALMOND,
+	FOXA,
+	FOXB,
+	FOXC,
+	FOXD;
+}
