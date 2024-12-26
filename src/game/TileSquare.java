@@ -1,22 +1,22 @@
 package game;
 
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.Objects;
 
-public class TileSquare {
+public final class TileSquare {
 	private final Landscape landscape;
 	private final Set<WildlifeToken> animalAccepted;
 	private WildlifeToken animal;
 	
-	public TileSquare(Set<WildlifeToken> animalAccepted, WildlifeToken wildlife, Landscape landscape) {
+	public TileSquare(Set<WildlifeToken> animalAccepted, WildlifeToken animal, Landscape landscape) {
 		Objects.requireNonNull(animalAccepted);
 		Objects.requireNonNull(landscape);
 		this.landscape = landscape;
-		this.animalAccepted = animalAccepted;
-		this.animal = wildlife;
+		this.animalAccepted = Set.copyOf(animalAccepted);
+		this.animal = animal;
 	}
 	
 	public Landscape landscape() {
@@ -36,56 +36,28 @@ public class TileSquare {
 		animal = wildLife;
 	}
 	
-	private HashSet<Object> allNeighbour(Coordinate currentTiles, HashMap<Coordinate, TileSquare> tilesMap) {
-		var list = List.of(new Coordinate(0, 1), new Coordinate(0, -1), new Coordinate(1, 0), new Coordinate(-1, 0));
-		var coordinate = new HashSet<>();
+	private static Set<Coordinate> allNeighbour(Coordinate currentTiles) {
+		Set<Coordinate> coordinate = Set.of(new Coordinate(currentTiles.x() + 1, currentTiles.y()),
+		    new Coordinate(currentTiles.x() - 1, currentTiles.y()),
+		    new Coordinate(currentTiles.x(), currentTiles.y() + 1),
+		    new Coordinate(currentTiles.x(), currentTiles.y() - 1));
 		return coordinate;
 	}
 	
-	public static Set<Coordinate> notneighbour(Coordinate currentTiles, HashMap<Coordinate, TileSquare> tilesMap) {
+	public static Set<Coordinate> notneighbour(Coordinate currentTiles, Map<Coordinate, TileSquare> tilesMap) {
 		Objects.requireNonNull(currentTiles);
 		Objects.requireNonNull(tilesMap);
-		Set<Coordinate> neighbour = new HashSet<Coordinate>();
-		Coordinate temporary = new Coordinate(currentTiles.x() + 1, currentTiles.y());
-		if(!tilesMap.containsKey(temporary)) {
-			neighbour.add(temporary);
-		}
-		temporary = new Coordinate(currentTiles.x() - 1, currentTiles.y());
-		if(!tilesMap.containsKey(temporary)) {
-			neighbour.add(temporary);
-		}
-		temporary = new Coordinate(currentTiles.x(), currentTiles.y() + 1);
-		if(!tilesMap.containsKey(temporary)) {
-			neighbour.add(temporary);
-		}
-		temporary = new Coordinate(currentTiles.x(), currentTiles.y() - 1);
-		if(!tilesMap.containsKey(temporary)) {
-			neighbour.add(temporary);
-		}
-		return neighbour;
+		return allNeighbour(currentTiles).stream()
+		    .filter(coordinate -> !tilesMap.containsKey(coordinate))
+		    .collect(Collectors.toSet());
 	}
 	
-	public static Set<Coordinate> neighbour(Coordinate currentTiles, HashMap<Coordinate, TileSquare> tilesMap) {
+	public static Set<Coordinate> neighbour(Coordinate currentTiles, Map<Coordinate, TileSquare> tilesMap) {
 		Objects.requireNonNull(currentTiles);
 		Objects.requireNonNull(tilesMap);
-		Set<Coordinate> neighbour = new HashSet<Coordinate>();
-		Coordinate temporary = new Coordinate(currentTiles.x() + 1, currentTiles.y());
-		if(tilesMap.containsKey(temporary)) {
-			neighbour.add(temporary);
-		}
-		temporary = new Coordinate(currentTiles.x() - 1, currentTiles.y());
-		if(tilesMap.containsKey(temporary)) {
-			neighbour.add(temporary);
-		}
-		temporary = new Coordinate(currentTiles.x(), currentTiles.y() + 1);
-		if(tilesMap.containsKey(temporary)) {
-			neighbour.add(temporary);
-		}
-		temporary = new Coordinate(currentTiles.x(), currentTiles.y() - 1);
-		if(tilesMap.containsKey(temporary)) {
-			neighbour.add(temporary);
-		}
-		return neighbour;
+		return allNeighbour(currentTiles).stream()
+        .filter(coordinate -> tilesMap.containsKey(coordinate))
+        .collect(Collectors.toSet());
 	}
 	
 	@Override
