@@ -4,6 +4,7 @@ import java.util.Set;
 import game.AnimalCard;
 import game.Coordinate;
 import game.CountPointSquare;
+import game.DrawSquare;
 import game.Landscape;
 import game.TileSquare;
 import game.WildlifeToken;
@@ -35,5 +36,10 @@ public class Main {
 		p2.put(new Coordinate(8, 0), new TileSquare(Set.of(WildlifeToken.BEAR, WildlifeToken.ELK), null, Landscape.MEADOW));
 		p2.put(new Coordinate(9, 0), new TileSquare(Set.of(WildlifeToken.BEAR, WildlifeToken.ELK), WildlifeToken.BEAR, Landscape.MEADOW));
 		p2.put(new Coordinate(10, 0), new TileSquare(Set.of(WildlifeToken.BEAR, WildlifeToken.ELK), WildlifeToken.BEAR, Landscape.MEADOW));
+		
+		var draw = DrawSquare.createDraw();
+		//System.out.println(draw.tiles());
+		//System.out.println(draw.wildlife());
+		System.out.println(draw.draw());
 	}
 }
