@@ -4,10 +4,14 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.Objects;
 
-public record CountPointSquare(Map<Coordinate, TileSquare> player1, Map<Coordinate, TileSquare> player2) {
+public record CountPointSquare(Map<Coordinate, TileSquare> player1, Map<Coordinate, TileSquare> player2, int[] pointPlayer) {
 	public CountPointSquare {
 		Objects.requireNonNull(player1);
 		Objects.requireNonNull(player2);
+	}
+	
+	public CountPointSquare(Map<Coordinate, TileSquare> player1, Map<Coordinate, TileSquare> player2){
+		this(player1, player2, new int[] {0, 0});
 	}
 	
 	private int majority(Map<Landscape, Integer> scoreLandscapeplayer1, Map<Landscape, Integer> scoreLandscapeplayer2, Landscape landscape) {
@@ -22,8 +26,8 @@ public record CountPointSquare(Map<Coordinate, TileSquare> player1, Map<Coordina
 	
 	private int countPoint(int player, AnimalCard card) {
 		var pointWildlife = new WildlifeCount(card);
-		var pointLandscapePlayer1 = new LandscapeCount(player1);
-		var pointLandscapePlayer2 = new LandscapeCount(player2);
+		var pointLandscapePlayer1 = new LandscapeCountSquare(player1);
+		var pointLandscapePlayer2 = new LandscapeCountSquare(player2);
 		var scoreLandscapeplayer1 = pointLandscapePlayer1.everyLandscapeScore();
 		var scoreLandscapeplayer2 = pointLandscapePlayer2.everyLandscapeScore();
 
@@ -39,14 +43,14 @@ public record CountPointSquare(Map<Coordinate, TileSquare> player1, Map<Coordina
 	
 	
 	public int winner(AnimalCard card) {
-		var scorePlayer1 = countPoint(1, card);
-		var scorePlayer2 = countPoint(2, card);
-		System.out.println(scorePlayer1);
-		System.out.println(scorePlayer2);
-		if(scorePlayer1 > scorePlayer2) {
+		pointPlayer[0] = countPoint(1, card);
+		pointPlayer[1] = countPoint(2, card);
+		System.out.println(pointPlayer[0]);
+		System.out.println(pointPlayer[1]);
+		if(pointPlayer[0] > pointPlayer[1]) {
 			return 1;
 		}
-		if(scorePlayer1 < scorePlayer2) {
+		if(pointPlayer[0] < pointPlayer[1]) {
 			return 2;
 		}
 		return 0;

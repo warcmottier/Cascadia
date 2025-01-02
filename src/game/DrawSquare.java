@@ -15,9 +15,6 @@ public final class DrawSquare {
   private final Map<WildlifeToken, Integer> wildlife = new HashMap<>();
   private final List<TileSquare> tiles = new ArrayList<>();
   
-  private DrawSquare() {
-  }
-  
   public Map<TileSquare, WildlifeToken>  draw() {
     return draw;
   }
