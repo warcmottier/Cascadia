@@ -3,6 +3,7 @@ package game;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -151,4 +152,22 @@ public final class DrawSquare {
     return draw;
   }
   
+  @Override
+  public String toString() {
+      List<String> formattedLines = new ArrayList<>();
+      var index = new AtomicInteger(1); // Usage of AtomicInteger to keep the index inside the stream
+      draw.entrySet().forEach(entry -> {
+          TileSquare tile = entry.getKey();
+          Set<WildlifeToken> animalsAccepted = tile.animalAccepted();
+          String animalAcceptedStr = animalsAccepted.stream()
+              .map(WildlifeToken::name)
+              .collect(Collectors.joining(", "));
+          WildlifeToken wildlifeToken = entry.getValue();
+          String wildlifeTokenStr = wildlifeToken != null ? wildlifeToken.name() : "None";
+          String line = String.format("%s, animal accepted: %s + Wildlife token: %s", tile.landscape(), animalAcceptedStr, wildlifeTokenStr);
+          formattedLines.add(String.format("-%d %s", index.getAndIncrement(), line));
+      });// We join everything with \n
+      return String.join("\n", formattedLines);
+  }
+
 }

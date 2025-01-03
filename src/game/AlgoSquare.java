@@ -103,7 +103,7 @@ public final class AlgoSquare {
 		//afficher winner point
 	}
 	
-	// TO DO
+	// TO DO + L + No maidens
 	public void game() {
 		var input = 0;
 		var currentPlayer = 1;

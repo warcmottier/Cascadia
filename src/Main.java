@@ -1,13 +1,8 @@
 import java.util.HashMap;
 import java.util.Set;
+import game.*;
+import graphics.*;
 
-import game.AnimalCard;
-import game.Coordinate;
-import game.CountPointSquare;
-import game.DrawSquare;
-import game.Landscape;
-import game.TileSquare;
-import game.WildlifeToken;
 
 public class Main {
 
@@ -29,17 +24,20 @@ public class Main {
 		p2.put(new Coordinate(1, 0), new TileSquare(Set.of(WildlifeToken.BEAR, WildlifeToken.ELK), WildlifeToken.ELK, Landscape.FOREST));
 		p2.put(new Coordinate(2, 0), new TileSquare(Set.of(WildlifeToken.BEAR, WildlifeToken.ELK), WildlifeToken.ELK, Landscape.FOREST));
 		p2.put(new Coordinate(3, 0), new TileSquare(Set.of(WildlifeToken.BEAR, WildlifeToken.ELK), WildlifeToken.ELK, Landscape.MOUNTAIN));
-		p2.put(new Coordinate(4, 0), new TileSquare(Set.of(WildlifeToken.BEAR, WildlifeToken.ELK), WildlifeToken.ELK, Landscape.MEADOW));
-		p2.put(new Coordinate(5, 0), new TileSquare(Set.of(WildlifeToken.BEAR, WildlifeToken.ELK), WildlifeToken.BEAR, Landscape.MEADOW));
-		p2.put(new Coordinate(6, 0), new TileSquare(Set.of(WildlifeToken.BEAR, WildlifeToken.ELK), WildlifeToken.BEAR, Landscape.MOUNTAIN));
-		p2.put(new Coordinate(7, 0), new TileSquare(Set.of(WildlifeToken.BEAR, WildlifeToken.ELK), WildlifeToken.BEAR, Landscape.MEADOW));
-		p2.put(new Coordinate(8, 0), new TileSquare(Set.of(WildlifeToken.BEAR, WildlifeToken.ELK), null, Landscape.MEADOW));
-		p2.put(new Coordinate(9, 0), new TileSquare(Set.of(WildlifeToken.BEAR, WildlifeToken.ELK), WildlifeToken.BEAR, Landscape.MEADOW));
-		p2.put(new Coordinate(10, 0), new TileSquare(Set.of(WildlifeToken.BEAR, WildlifeToken.ELK), WildlifeToken.BEAR, Landscape.MEADOW));
+		p2.put(new Coordinate(4, 1), new TileSquare(Set.of(WildlifeToken.BEAR, WildlifeToken.ELK), null, Landscape.MEADOW));
+		p2.put(new Coordinate(5, 2), new TileSquare(Set.of(WildlifeToken.BEAR, WildlifeToken.ELK), null, Landscape.MEADOW));
+		p2.put(new Coordinate(6, 3), new TileSquare(Set.of(WildlifeToken.BEAR, WildlifeToken.ELK), null, Landscape.MOUNTAIN));
+		p2.put(new Coordinate(7, 4), new TileSquare(Set.of(WildlifeToken.BEAR, WildlifeToken.ELK), WildlifeToken.BEAR, Landscape.MEADOW));
+		p2.put(new Coordinate(8, 5), new TileSquare(Set.of(WildlifeToken.BEAR, WildlifeToken.ELK), null, Landscape.MEADOW));
+		p2.put(new Coordinate(9, 8), new TileSquare(Set.of(WildlifeToken.BEAR, WildlifeToken.ELK), WildlifeToken.BEAR, Landscape.MEADOW));
+		p2.put(new Coordinate(10, 10), new TileSquare(Set.of(WildlifeToken.BEAR, WildlifeToken.ELK), WildlifeToken.BEAR, Landscape.MEADOW));
+		
 		
 		var draw = DrawSquare.createDraw();
 		//System.out.println(draw.tiles());
 		//System.out.println(draw.wildlife());
-		System.out.println(draw.draw());
+		System.out.println(draw);
+		var input = ViewTerminal.printHead(p2, AnimalCard.FAMILY, draw, -152);
+		System.out.println(input);
 	}
 }
