@@ -2,15 +2,17 @@ package game;
 
 import java.util.Map;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import graphics.ViewTerminal;
 
 public final class AlgoSquare {
 	private final HashMap<Coordinate, TileSquare> player1 = new HashMap<>();
 	private final HashMap<Coordinate, TileSquare> player2 = new HashMap<>();
 	private final DrawSquare draw = DrawSquare.createDraw();
-	private AnimalCard card;
+	private static AnimalCard card;
 	
 	private void setMap(int wildlife, Landscape landscape1, Landscape landscape2, Landscape landscape3, int numberPlayer) {
 		Landscape[] arrayLandscapes = {landscape1, landscape2, landscape3};
@@ -19,7 +21,7 @@ public final class AlgoSquare {
     		{WildlifeToken.ELK, WildlifeToken.BEAR}, {WildlifeToken.FOX, WildlifeToken.SALMON}, {WildlifeToken.FOX, WildlifeToken.NOZZLE},
     		{WildlifeToken.SALMON, WildlifeToken.ELK}, {WildlifeToken.FOX, WildlifeToken.ELK}, {WildlifeToken.BEAR, WildlifeToken.NOZZLE},
     		{WildlifeToken.NOZZLE, WildlifeToken.SALMON}, {WildlifeToken.NOZZLE, WildlifeToken.BEAR}, {WildlifeToken.FOX, WildlifeToken.ELK}};
-    for(int i = 0; i < 3; i++) {
+    for(var i = 0; i < 3; i++) {
     	if(numberPlayer == 1) {
     		player1.put(new Coordinate(0, i), new TileSquare(Set.of(wildlifeTokens[wildlife + i][0], wildlifeTokens[wildlife + i][1]), null, arrayLandscapes[i]));
     	}
@@ -42,16 +44,14 @@ public final class AlgoSquare {
 	
 	public static AlgoSquare initializedGame() {
 		var game = new AlgoSquare();
-		//choix anmal card
-		var n = 0;
-		// affichage + choix joueur1
-		game.tilesBegin(n, 1);
-		//affichage + choix joueur2
-		game.tilesBegin(n, 2);
+		card = ViewTerminal.choiceAnimalCard();
+		int[] forbidenNumben = {0};
+		game.tilesBegin(ViewTerminal.choiceTileBegin(forbidenNumben, 1), 1);
+		game.tilesBegin(ViewTerminal.choiceTileBegin(forbidenNumben, 2), 2);
 		return game;
 	}
 	
-	private void makeTileMove(int input, Set<Coordinate> movesTiles, int player, TileSquare tile) {
+	private void makeTileMove(int input, List<Coordinate> movesTiles, int player, TileSquare tile) {
 		if(player == 1) {
 			player1.put((Coordinate) movesTiles.toArray()[input - 1], tile);
 		}
@@ -60,7 +60,7 @@ public final class AlgoSquare {
 		}
 	}
 	
-	private void makeWildlifeMove(int input, Set<Coordinate> movesWildlife, WildlifeToken wildlife, int player) {
+	private void makeWildlifeMove(int input, List<Coordinate> movesWildlife, WildlifeToken wildlife, int player) {
 		if(player == 1) {
 			player1.get(movesWildlife.toArray()[input - 1]).setWildlifeToken(wildlife);
 		}
@@ -69,58 +69,60 @@ public final class AlgoSquare {
 		}
 	}
 	
-	private Set<Coordinate> allAvailableTileMove(int player) {
+	private List<Coordinate> allAvailableTileMove(int player) {
     var moves = (player == 1) ? player1 : player2;
     return moves.keySet().stream()
             .flatMap(coord -> TileSquare.notneighbour(coord, moves).stream())
-            .collect(Collectors.toSet());
+            .collect(Collectors.toList());
 }
 
-	private Set<Coordinate> allAvailableWildlifeMove(int player,  WildlifeToken wildlife) {
+	private List<Coordinate> allAvailableWildlifeMove(int player,  WildlifeToken wildlife) {
 		var moves = (player == 1) ? player1 : player2;
     return moves.keySet().stream().filter(coord -> moves.get(coord).animal() == null && moves.get(coord).animalAccepted().contains(wildlife))
-    		.collect(Collectors.toSet());
+    		.collect(Collectors.toList());
 	}
 	
 	private void makeMove(int player, Map<TileSquare, WildlifeToken> picked) {
 		var movesTiles = allAvailableTileMove(player);
 		var movesWildlife = allAvailableWildlifeMove(player, picked.values().iterator().next());
-		var input = 0;
-		//affiche choix placement tuile choix joueur (renvoie la coordoner le chiffre voulue)
+		var input = -1;
+		input = ViewTerminal.choiceMoveTileOrWildelife(movesTiles, true);
 		makeTileMove(input, movesTiles, player, picked.keySet().iterator().next());
 		if(movesWildlife.size() == 0) {
-			//affiche impossible a jouer
+			System.out.println("there is no available spot for this wildlife token return to the draw");
 			draw.wildlife().put(picked.values().iterator().next(), draw.wildlife().get(picked.values().iterator().next()) + 1);
 			return;
 		}
-		//affiche choix placement wildlife + choix joueur (renvoie la coordonner voulue)
+		input = ViewTerminal.choiceMoveTileOrWildelife(movesWildlife, false);
 		makeWildlifeMove(input, movesWildlife, picked.values().iterator().next(), player);
 	}
 	
 	private void winner() {
 		var point = new CountPointSquare(player1, player2);
-		point.winner(card);
-		//afficher winner point
+		ViewTerminal.printWinner(point, point.winner(card));
 	}
-	
-	// TO DO + L + No maidens
+
 	public void game() {
 		var input = 0;
 		var currentPlayer = 1;
 		Map<TileSquare, WildlifeToken> picked = new HashMap<>();
-		for(int i = 0; i < 40; i++) {
-			//affichage entete + player + carte + pioche + choix jouer
-			picked = draw.pickDraw(input);
+		for(var i = 0; i < 40; i++) {
 			input = draw.isOverpopulation();
-			if(input == 4) {
-				draw.overpopulation(4);
-			}
-			else if(input == 3) {
-				if(/*afficher pioche + demande roverpopuation (boolean)*/) {
-					draw.overpopulation(3);
+			for(; input == 3 || input == 4; input = draw.isOverpopulation()) {
+				if(input == 4) {
+					draw.overpopulation(4);
+				}
+				else if(input == 3) {
+					if(ViewTerminal.askOverpopulation(draw)) {
+						draw.overpopulation(3);
+					}
 				}
 			}
+			input = (currentPlayer == 1) ? ViewTerminal.printHead(player1, card, draw, currentPlayer) : ViewTerminal.printHead(player2, card, draw, currentPlayer);
+			System.out.println(input);
+			picked = draw.pickDraw(input);
 			makeMove(currentPlayer, picked);
+			currentPlayer = (currentPlayer == 1) ? 2 : 1;
 		}
 		winner();
 	}

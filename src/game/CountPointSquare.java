@@ -45,8 +45,6 @@ public record CountPointSquare(Map<Coordinate, TileSquare> player1, Map<Coordina
 	public int winner(AnimalCard card) {
 		pointPlayer[0] = countPoint(1, card);
 		pointPlayer[1] = countPoint(2, card);
-		System.out.println(pointPlayer[0]);
-		System.out.println(pointPlayer[1]);
 		if(pointPlayer[0] > pointPlayer[1]) {
 			return 1;
 		}

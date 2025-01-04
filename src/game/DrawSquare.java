@@ -67,9 +67,9 @@ public final class DrawSquare {
   }
   
   public Map<TileSquare, WildlifeToken> pickDraw(int picked) {
-    Objects.checkIndex(picked, draw.size());
+    Objects.checkIndex(picked - 1, draw.size());
     var chosenKeys = new ArrayList<>(draw.keySet());
-    TileSquare selectedKey = chosenKeys.get(picked);
+    TileSquare selectedKey = chosenKeys.get(picked - 1);
     WildlifeToken selectedAnimal = draw.get(selectedKey);
     Map<TileSquare, WildlifeToken> chosendraw = new HashMap<>();
     chosendraw.put(selectedKey, selectedAnimal);
