@@ -1,5 +1,7 @@
 package game;
-
+/**
+ * This enum represent the different cards to play Cascadia with
+ */
 public enum AnimalCard {
 	FAMILY,
 	INTERMEDIATE,

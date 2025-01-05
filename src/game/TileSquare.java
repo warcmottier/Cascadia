@@ -5,11 +5,23 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.Objects;
 
+/**
+ * TileSquare represents a Square version of a tile for Cascadia
+ * landscape is a field representing the landscape of a tile
+ * animalAccepted is a field representing the animals accepted by thiss tile
+ * animal is a field representing the current animal on this tile
+ */
 public final class TileSquare {
 	private final Landscape landscape;
 	private final Set<WildlifeToken> animalAccepted;
 	private WildlifeToken animal;
 	
+	/**
+	 * TileSquare, the constructor, checks if animalAccepted and landscape do exist, animal can be null
+	 * @param animalAccepted Set<WildlifeToken> represents the animals accepted by this tile
+	 * @param animal a WildlifeToken representing the current animal on this tile, can be null
+	 * @param landscape a Landscape representing the landscape of a tile
+	 */
 	public TileSquare(Set<WildlifeToken> animalAccepted, WildlifeToken animal, Landscape landscape) {
 		Objects.requireNonNull(animalAccepted);
 		Objects.requireNonNull(landscape);
@@ -18,23 +30,44 @@ public final class TileSquare {
 		this.animal = animal;
 	}
 	
+	/**
+	 * the accessor for the landscape field
+	 * @return the content of the landscape field
+	 */
 	public Landscape landscape() {
 	  return landscape;
 	}
 	
+	 /**
+   * the accessor for the animal field
+   * @return the content of the animal field
+   */
 	public WildlifeToken animal() {
 		return animal;
 	}
 	
+	 /**
+   * the accessor for the animalAccepted field
+   * @return the content of the animalAccepted field
+   */
 	public Set<WildlifeToken> animalAccepted() {
 	  return animalAccepted;
 	}
 	
+	 /**
+   * the accessor for the wildlife field
+   * @return the content of the wildlife field
+   */
 	public void setWildlifeToken(WildlifeToken wildLife) {
 		Objects.requireNonNull(wildLife);
 		animal = wildLife;
 	}
 	
+	/**
+	 * allNeighbour finds every neighbor of a tile
+	 * @param currentTiles the Coordinate of the tile being checked
+	 * @return Set<Coordinate> the neighbors of the tile
+	 */
 	private static Set<Coordinate> allNeighbour(Coordinate currentTiles) {
 		Set<Coordinate> coordinate = Set.of(new Coordinate(currentTiles.x() + 1, currentTiles.y()),
 		    new Coordinate(currentTiles.x() - 1, currentTiles.y()),
@@ -43,6 +76,11 @@ public final class TileSquare {
 		return coordinate;
 	}
 	
+	 /**
+   * notneighbour finds every empty neighbor of a tile
+   * @param currentTiles the Coordinate of the tile being checked
+   * @return Set<Coordinate> the empty spots of the tile
+   */
 	public static Set<Coordinate> notneighbour(Coordinate currentTiles, Map<Coordinate, TileSquare> tilesMap) {
 		Objects.requireNonNull(currentTiles);
 		Objects.requireNonNull(tilesMap);
@@ -51,6 +89,12 @@ public final class TileSquare {
 		    .collect(Collectors.toSet());
 	}
 	
+	/**
+	 * neighbour search for every neighbors of a map
+	 * @param currentTiles the tile currently being checked
+	 * @param tilesMap the Map containing every tiles and their coordinates
+	 * @return a set of every neighbors
+	 */
 	public static Set<Coordinate> neighbour(Coordinate currentTiles, Map<Coordinate, TileSquare> tilesMap) {
 		Objects.requireNonNull(currentTiles);
 		Objects.requireNonNull(tilesMap);

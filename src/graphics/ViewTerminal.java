@@ -110,77 +110,120 @@ public record ViewTerminal() {
     coordinate[3] = Integer.valueOf(minY.getAsInt());
   }
   
-  public static void printPlayer(Map<Coordinate, TileSquare> player, int minX, int maxX, int minY, int maxY) {
+  private static String printXcoordinate(int minY, int maxY) {
+    var Xcoordinate = new StringBuilder();
+    Xcoordinate.append("     ");
+    for(int i = minY; i < maxY + 1; i++) {
+      Xcoordinate.append("       ").append(i).append("       ");
+    }
+    Xcoordinate.append("\n");
+    Xcoordinate.append("     ");
+    return Xcoordinate.toString();
+  }
+  
+  private static String printYcooordinate(int u, int i) {
+    var Ycoordinate = new StringBuilder();
+    if(u == 1) {
+      if(i <= -10) {
+        Ycoordinate.append(i).append("  |");
+      }
+      else if(i >= 10 || i < 0) {
+        Ycoordinate.append(" ").append(i).append("  |");
+      }
+      else {
+        Ycoordinate.append("  ").append(i).append("  |");           
+      }
+    }
+    else {
+      Ycoordinate.append("     |");         
+    }
+    return Ycoordinate.toString();
+  }
+  
+  private static String printLandscape(Map<Coordinate, TileSquare> player, int u, Coordinate currentCoordinate, int cellWidth) {
+    var landscapeToString = new StringBuilder();
+    if(u == 0) {
+      var landscape = player.get(currentCoordinate).landscape();
+      var size = landscape.toString().length();
+      landscapeToString.append(landscape.toString());
+      for(int z = size; z < cellWidth - 1; z++) {
+        landscapeToString.append(" ");
+      }
+      landscapeToString.append("|");
+    }
+    return landscapeToString.toString();
+  }
+  
+  private static String printWildlifeToken(Map<Coordinate, TileSquare> player, Coordinate currentCoordinate, int cellWidth) {
+    var wildlifeToString = new StringBuilder();
+      var animal = player.get(currentCoordinate).animal();
+      var size = animal.toString().length();
+      wildlifeToString.append("\u001B[32m" + animal.toString() + "\u001B[0m");
+      for(int z = size; z < cellWidth - 1; z++) {
+        wildlifeToString.append(" ");
+      }
+      wildlifeToString.append("|");
+    return wildlifeToString.toString();
+  }
+  
+  private static String printAnimalAccepted(Map<Coordinate, TileSquare> player, Coordinate currentCoordinate, int cellWidth) {
+    var animalAcceptedToString = new StringBuilder();
+    var animalAccepted = player.get(currentCoordinate).animalAccepted();
+    var stringAnimalAccepted = new StringBuilder();
+    var iterator = animalAccepted.iterator();
+    var firstAnimal = iterator.next().toString();
+    var secondAnimal = iterator.next().toString();
+    var size = firstAnimal.length() + secondAnimal.length() + 2;
+    stringAnimalAccepted.append("\u001B[31m" + firstAnimal);
+    stringAnimalAccepted.append(", ");
+    stringAnimalAccepted.append(secondAnimal + "\u001B[0m");
+    animalAcceptedToString.append(stringAnimalAccepted);
+    for(int z = size; z < cellWidth - 1; z++) {
+      animalAcceptedToString.append(" ");
+    }
+    animalAcceptedToString.append("|");
+    return animalAcceptedToString.toString();
+  }
+  
+  private static String printAnimal(Map<Coordinate, TileSquare> player, Coordinate currentCoordinate, int cellWidth, int u) {
+    var animalToString = new StringBuilder();
+    if(u == 1) {
+      if(player.get(currentCoordinate).animal() != null) {
+        animalToString.append(printWildlifeToken(player, currentCoordinate, cellWidth));
+       }
+      else {
+        animalToString.append(printAnimalAccepted(player, currentCoordinate, cellWidth));
+      }
+    }
+    return animalToString.toString();
+  }
+  
+  private static String printCellContent(Map<Coordinate, TileSquare> player, Coordinate currentCoordinate, int cellWidth, int u) {
+    var cell = new StringBuilder();
+    if(player.containsKey(currentCoordinate)) {   
+      cell.append(printLandscape(player, u, currentCoordinate, cellWidth));
+      cell.append(printAnimal(player, currentCoordinate, cellWidth, u));
+    }
+    return cell.toString();
+  }
+  
+  private static void printPlayer(Map<Coordinate, TileSquare> player, int minX, int maxX, int minY, int maxY) {
     var playerBoard = new StringBuilder();
     var cellWidth = 15;
-    for(int i = minY; i < maxY + 1; i++) {
-    	playerBoard.append("       ").append(i).append("       ");
-    }
-    playerBoard.append("\n");
-    
-    playerBoard.append("     ");
-    
+    playerBoard.append(printXcoordinate(minY, maxY));
     for(int w = minY; w < maxY + 1; w++) {
       playerBoard.append("_______________");
     }
     playerBoard.append("\n");
     for(int i = minX; i <= maxX; i++) {
       for(int u = 0; u < 3; u++) {
-      	if(u == 1) {
-      		if(i <= -10) {
-      			playerBoard.append(i).append("  |");
-      		}
-      		else if(i >= 10 || i < 0) {
-      			playerBoard.append(" ").append(i).append("  |");
-      		}
-      		else {
-      			playerBoard.append("  ").append(i).append("  |");      			
-      		}
-      	}
-      	else {
-      		playerBoard.append("     |");      		
-      	}
+        playerBoard.append(printYcooordinate(u, i));
         for(int j = minY; j < maxY + 1; j++) {
           var currentCoordinate = new Coordinate(j, i);
-          if(player.containsKey(currentCoordinate)) {   
-            if(u == 0) {
-              var landscape = player.get(currentCoordinate).landscape();
-              var size = landscape.toString().length();
-              playerBoard.append(landscape.toString());
-              for(int z = size; z < cellWidth - 1; z++) {
-                playerBoard.append(" ");
-              }
-              playerBoard.append("|");
-            }
-            if(u == 1) {
-              if(player.get(currentCoordinate).animal() != null) {
-                var animal = player.get(currentCoordinate).animal();
-                var size = animal.toString().length();
-                playerBoard.append("\u001B[32m" + animal.toString() + "\u001B[0m");
-                for(int z = size; z < cellWidth - 1; z++) {
-                  playerBoard.append(" ");
-                }
-                playerBoard.append("|");
-               }
-              else {
-                var animalAccepted = player.get(currentCoordinate).animalAccepted();
-                var stringAnimalAccepted = new StringBuilder();
-                var iterator = animalAccepted.iterator();
-                var firstAnimal = iterator.next().toString();
-                var secondAnimal = iterator.next().toString();
-                var size = firstAnimal.length() + secondAnimal.length() + 2;
-                stringAnimalAccepted.append("\u001B[31m" + firstAnimal);
-                stringAnimalAccepted.append(", ");
-                stringAnimalAccepted.append(secondAnimal + "\u001B[0m");
-                playerBoard.append(stringAnimalAccepted);
-                for(int z = size; z < cellWidth - 1; z++) {
-                  playerBoard.append(" ");
-                }
-                playerBoard.append("|");
-              }
-            }
-          }
+          playerBoard.append(printCellContent(player, currentCoordinate, cellWidth, u));
+          if(u == 2 || player.get(currentCoordinate) == null) {
           playerBoard.append("              |");
+          }
         }
         playerBoard.append("\n");
       }

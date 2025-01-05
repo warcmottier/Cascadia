@@ -9,10 +9,14 @@ import java.util.stream.Collectors;
 
 import java.util.Objects;
 
+/**
+ * WildlifeCount holds the counting methods for each card
+ * the field card contains the current rules to be applied
+ */
 public record WildlifeCount(AnimalCard card) {
   
   /**
-   * Select the correct animal or calls the familly or intermediate version depending on the game mode
+   * Select the correct animal or calls the family or intermediate version depending on the game mode
    * @return int number of points given to the player by this card
    */
   public int countCardScore(Map<Coordinate, TileSquare> player) {
