@@ -7,8 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.io.Console;
 
-public record ViewTerminal() {
+public final class ViewTerminal {
   
+  /**
+   * printCard 
+   * @param card
+   */
   private static void printCard(AnimalCard card) {
     switch (card) {
     case AnimalCard.FAMILY -> System.out.println("1 animal : 2 points, 2 animals : 5 points, 3 or more : 9 points\n");
