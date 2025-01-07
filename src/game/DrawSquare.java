@@ -197,6 +197,9 @@ public final class DrawSquare {
    * refillDraw refills the draw with a new tile and a new wildlife token
    */
   private void refillDraw() {
+  	if(tiles.size() == 0) {
+  		return;
+  	}
     var random = new Random();
     var tile = tiles.get(random.nextInt(tiles.size()));
     tiles.remove(tile);

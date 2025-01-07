@@ -80,7 +80,7 @@ public final class AlgoSquare {
 	 * @param player an int representing which player is playing his turn
 	 * @param tile a TileSquare representing the tile drawn by the player
 	 */
-	private void makeTileMove(int input, List<Coordinate> movesTiles, int player, TileSquare tile) {
+	private void makeTileMove(int input, Set<Coordinate> movesTiles, int player, TileSquare tile) {
 		if(player == 1) {
 			player1.put((Coordinate) movesTiles.toArray()[input - 1], tile);
 		}
@@ -96,7 +96,7 @@ public final class AlgoSquare {
 	 * @param wildlife a WildlifeToken representing the token chosen by the player
 	 * @param player an int representing which player is playing his turn
 	 */
-	private void makeWildlifeMove(int input, List<Coordinate> movesWildlife, WildlifeToken wildlife, int player) {
+	private void makeWildlifeMove(int input, Set<Coordinate> movesWildlife, WildlifeToken wildlife, int player) {
 		if(player == 1) {
 			player1.get(movesWildlife.toArray()[input - 1]).setWildlifeToken(wildlife);
 		}
@@ -110,11 +110,11 @@ public final class AlgoSquare {
 	 * @param player an int representing which player is playing his turn
 	 * @return a List of Coordinate containing the Coordinate of every possible move
 	 */
-	private List<Coordinate> allAvailableTileMove(int player) {
+	private Set<Coordinate> allAvailableTileMove(int player) {
     var moves = (player == 1) ? player1 : player2;
     return moves.keySet().stream()
             .flatMap(coord -> TileSquare.notneighbour(coord, moves).stream())
-            .collect(Collectors.toList());
+            .collect(Collectors.toSet());
 }
 
 	/**
@@ -123,10 +123,10 @@ public final class AlgoSquare {
 	 * @param wildlife
 	 * @return a List of Coordinate containing the Coordinate of every possible move
 	 */
-	private List<Coordinate> allAvailableWildlifeMove(int player,  WildlifeToken wildlife) {
+	private Set<Coordinate> allAvailableWildlifeMove(int player,  WildlifeToken wildlife) {
 		var moves = (player == 1) ? player1 : player2;
     return moves.keySet().stream().filter(coord -> moves.get(coord).animal() == null && moves.get(coord).animalAccepted().contains(wildlife))
-    		.collect(Collectors.toList());
+    		.collect(Collectors.toSet());
 	}
 	
 	/**
@@ -173,6 +173,9 @@ public final class AlgoSquare {
 				else if(input == 3) {
 					if(ViewTerminal.askOverpopulation(draw)) {
 						draw.overpopulation(3);
+					}
+					else {
+						break;
 					}
 				}
 			}

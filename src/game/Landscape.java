@@ -14,7 +14,6 @@ public enum Landscape {
 	private final String landscape;
 
 	Landscape(String landscape) {
-		Objects.requireNonNull(landscape);
 		this.landscape = landscape;
 	}
 	

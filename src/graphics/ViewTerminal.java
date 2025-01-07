@@ -5,6 +5,7 @@ import java.lang.StringBuilder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.io.Console;
 
 public final class ViewTerminal {
@@ -15,8 +16,8 @@ public final class ViewTerminal {
    */
   private static void printCard(AnimalCard card) {
     switch (card) {
-    case AnimalCard.FAMILY -> System.out.println("1 animal : 2 points, 2 animals : 5 points, 3 or more : 9 points\n");
-    case AnimalCard.INTERMEDIATE -> System.out.println("2 animals : 5 points, 3 animals : 8 points, 4 or more : 12 points\n");
+    case AnimalCard.FAMILY -> System.out.println(card.pointAnimal());
+    case AnimalCard.INTERMEDIATE -> System.out.println(card.pointAnimal());
     default ->
     throw new IllegalArgumentException("Unexpected value: " + card);
     }
@@ -270,7 +271,7 @@ public final class ViewTerminal {
   }
 
   
-  public static int choiceMoveTileOrWildelife(List<Coordinate> moves, boolean tileOrNot) {
+  public static int choiceMoveTileOrWildelife(Set<Coordinate> moves, boolean tileOrNot) {
   	int[] index = {1};
   	moves.stream().map(coordinate -> index[0]++ + " - " + coordinate)
   		.forEach(System.out::println);

@@ -14,7 +14,6 @@ public enum WildlifeToken {
 	private final String wildlifeToken;
 	
   WildlifeToken(String wildlifeToken) {
-		Objects.requireNonNull(wildlifeToken);
 		this.wildlifeToken = wildlifeToken;
 	}
 	

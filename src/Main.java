@@ -14,13 +14,6 @@ public class Main {
 	private static HashMap<Coordinate, TileSquare> p1 = new HashMap<Coordinate, TileSquare>();
 	private static HashMap<Coordinate, TileSquare> p2 = new HashMap<Coordinate, TileSquare>();
 	
-	private static List<Coordinate> allAvailableTileMove(int player) {
-    var moves = (player == 1) ? p1 : p2;
-    return moves.keySet().stream()
-            .flatMap(coord -> TileSquare.notneighbour(coord, moves).stream())
-            .collect(Collectors.toList());
-}
-	
 	public static void main(String[] args) {
 		//var p1 = new HashMap<Coordinate, TileSquare>();
 		p1.put(new Coordinate(0, 0), new TileSquare(Set.of(WildlifeToken.NOZZLE, WildlifeToken.SALMON), WildlifeToken.ELK, Landscape.MOUNTAIN));
@@ -59,7 +52,7 @@ public class Main {
 		//System.out.println(draw);
 		//var input = ViewTerminal.printHead(p2, AnimalCard.FAMILY, draw, -152);
 		//System.out.println(input);
-		Application.run(Color.BLACK, constext -> ViewGame.game(constext, p1, draw));
+		Application.run(Color.BLACK, constext -> ViewGameSquare.game(constext, p1, draw, AnimalCard.FAMILY));
 		
 		/*var game = AlgoSquare.initializedGame();
 		game.game();*/
