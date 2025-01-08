@@ -3,8 +3,8 @@ package game;
  * This enum represent the different cards to play Cascadia with
  */
 public enum AnimalCard {
-	FAMILY("\"1 animal : 2 points, 2 animals : 5 points, 3 or more : 9 points"),
-	INTERMEDIATE("2 animals : 5 points, 3 animals : 8 points, 4 or more : 12 points"),
+	FAMILY("group of 1 animal : 2 points, 2 animals : 5 points, 3 or more : 9 points"),
+	INTERMEDIATE("group of 2 animals : 5 points, 3 animals : 8 points, 4 or more : 12 points"),
 	ELKA("a horizontal line with 1 elk : 2 points, 2 elk : 5 points, 3 elk : 9 points, 4 : 13 points"),
 	ELKB("1 elk : 2 points, 2 elk horizontal line : 5 points, 3 elk tiangle : 9 points, 4 elk diamond : 13 points"),
 	ELKC("a groupe of 1 elk : 2 points, 2 elk : 4 points, 3 elk : 7 points, 4 elk : 10 points, 5 elk : 14 points, 6 elk : 18 points, 7 elk : 20 points, 8 or more : 28 points"),

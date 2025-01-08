@@ -14,7 +14,7 @@ public class Main {
 	
 	public static void main(String[] args) {
 		//var p1 = new HashMap<Coordinate, TileSquare>();
-		p1.put(new Coordinate(0, 0), new TileSquare(Set.of(WildlifeToken.NOZZLE, WildlifeToken.SALMON), WildlifeToken.ELK, Landscape.MOUNTAIN));
+		p1.put(new Coordinate(0, 0), new TileSquare(Set.of(WildlifeToken.BEAR, WildlifeToken.SALMON), WildlifeToken.ELK, Landscape.MOUNTAIN));
 		p1.put(new Coordinate(1, 0), new TileSquare(Set.of(WildlifeToken.NOZZLE, WildlifeToken.SALMON), WildlifeToken.ELK, Landscape.MOUNTAIN));
 		p1.put(new Coordinate(2, 0), new TileSquare(Set.of(WildlifeToken.NOZZLE, WildlifeToken.SALMON), WildlifeToken.ELK, Landscape.MOUNTAIN));
 		p1.put(new Coordinate(3, 0), new TileSquare(Set.of(WildlifeToken.NOZZLE, WildlifeToken.SALMON), WildlifeToken.ELK, Landscape.MOUNTAIN));

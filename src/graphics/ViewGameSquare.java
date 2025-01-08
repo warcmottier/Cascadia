@@ -74,8 +74,8 @@ public final class ViewGameSquare {
 	public static void drawDraw(DrawSquare draw, ApplicationContext context, int marge, int widthScreen, int heightScreen) {
     final int[] cmpt = {0};
     draw.draw().keySet().stream().forEach(elements -> {
-        context.renderFrame(graphics -> drawTile(graphics, new Coordinate(cmpt[0] - 3, 0), elements, widthScreen, heightScreen, marge));
-        context.renderFrame(graphics -> drawDrawWildlife(graphics, draw.draw().get(elements), marge, widthScreen, heightScreen, cmpt[0] - 3, 1));
+        context.renderFrame(graphics -> drawTile(graphics, new Coordinate(cmpt[0] - 3, 0), elements, widthScreen / 4, heightScreen / 4, marge));
+        context.renderFrame(graphics -> drawDrawWildlife(graphics, draw.draw().get(elements), marge, widthScreen / 4, heightScreen / 4, cmpt[0] - 3, 1));
         cmpt[0]++;
     });
 	}
@@ -90,7 +90,7 @@ public final class ViewGameSquare {
 	}
 	
 	public static void drawAnimalCard(AnimalCard card, ApplicationContext context, int widthScreenInfo, int heightScreenInfo) {
-		context.renderFrame(graphics -> drawText(graphics, widthScreenInfo, heightScreenInfo, card));
+		context.renderFrame(graphics -> drawText(graphics, widthScreenInfo/ 2, heightScreenInfo / 50, card));
 	}
 	
 	public static void drawBox(Graphics2D graphics, int widthScreenInfo, int heightScreenInfo, String sentence) {
@@ -122,8 +122,9 @@ public final class ViewGameSquare {
     var height = screenInfo.height();
     var marge = 65;
     drawPlayer(context, playerBoard, marge, width, height);
-    drawDraw(draw, context, marge, width / 4, height / 4);
-    drawAnimalCard(card, context, width / 2, height/50);
+    drawDraw(draw, context, marge, width, height);
+    drawAnimalCard(card, context, width, height);
     drawOverPopulation(context, width, height);
+    System.out.println(GameControlerSquare.askDraw(context, width, height, marge, draw));
 	}
 }
