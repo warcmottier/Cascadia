@@ -1,7 +1,5 @@
 package game;
 
-import java.util.Objects;
-
 /**
  * this enum represents every wildlife for Cascadia
  */

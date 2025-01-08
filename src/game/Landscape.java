@@ -1,7 +1,5 @@
 package game;
 
-import java.util.Objects;
-
 /**
  * This enum represents the different landscape for Cascadia
  */
