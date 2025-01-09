@@ -3,12 +3,15 @@ package graphics;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import com.github.forax.zen.ApplicationContext;
 
+import game.AlgoSquare;
 import game.AnimalCard;
 import game.Coordinate;
+import game.CountPointSquare;
 import game.DrawSquare;
 import game.Landscape;
 import game.TileSquare;
@@ -107,10 +110,6 @@ public final class ViewGameSquare {
    * @param heightScreen int representing the height of the screen
 	 */
 	public static void drawPlayer(ApplicationContext context, Map<Coordinate, TileSquare> playerBoard, int marge, int widthScreen, int heightScreen) {
-		context.renderFrame(graphics -> {
-			graphics.setColor(Color.BLACK);
-			graphics.fill(new Rectangle2D.Float(0, 0, widthScreen, heightScreen));
-		});
 		playerBoard.keySet().forEach(elements -> context.renderFrame(graphics -> drawTile(graphics, elements, playerBoard.get(elements), widthScreen, heightScreen, marge)));
 	}
 	
@@ -184,7 +183,7 @@ public final class ViewGameSquare {
 		graphics.setColor(Color.GRAY);
 		graphics.fill(new Rectangle2D.Float(widthScreenInfo, heightScreenInfo, 65, 65));
 		graphics.setColor(Color.WHITE);
-		graphics.drawString(sentence, widthScreenInfo + 30, heightScreenInfo + 30);
+		graphics.drawString(sentence, widthScreenInfo + 10, heightScreenInfo + 30);
 	}
 	
 	/**
@@ -193,13 +192,19 @@ public final class ViewGameSquare {
    * @param widthSreenInfo int representing the width of the screen
    * @param heightScreenInfo int representing the height of the screen
 	 */
-	public static void drawOverPopulation(ApplicationContext context, int widthScreenInfo, int heightScreenInfo) {
+	public static int drawOverPopulation(DrawSquare draw ,ApplicationContext context, int widthScreenInfo, int heightScreenInfo) {
+	   context.renderFrame(graphics -> {
+	      graphics.setColor(Color.BLACK);
+	      graphics.fill(new Rectangle2D.Float(0, 0, widthScreenInfo, heightScreenInfo));
+	    });
+	  drawDraw(draw, context, heightScreenInfo, widthScreenInfo, heightScreenInfo);
 		context.renderFrame(graphics -> {
 			graphics.setColor(Color.WHITE);
 			graphics.drawString("do you want to do the overPopulation", widthScreenInfo / 50 - 20, heightScreenInfo - 150);
 		});
 		context.renderFrame(graphics -> drawBox(graphics, widthScreenInfo / 50, heightScreenInfo - 100, "yes"));
 		context.renderFrame(graphics -> drawBox(graphics, widthScreenInfo / 50 + 120, heightScreenInfo - 100, "no"));
+		return GameControlerSquare.askOverPpulation(context, widthScreenInfo, heightScreenInfo);
 	}
 	
 	/**
@@ -210,29 +215,102 @@ public final class ViewGameSquare {
    * @param heightScreenInfo int representing the height of the screen
    * @param marge int representing the size of the rectangle for a tile
 	 */
-	public static void drawMoves(Set<Coordinate> tileMoves, ApplicationContext context, int widthScreenInfo, int heightScreenInfo, int marge) {
+	public static Coordinate drawMoves(Set<Coordinate> tileMoves, ApplicationContext context, int widthScreenInfo, int heightScreenInfo, int marge) {
 		tileMoves.forEach(elements -> context.renderFrame(graphics -> {
 			graphics.setColor(Color.GRAY);
 			graphics.fill(new Rectangle2D.Float(widthScreenInfo/2 + elements.x() * marge, heightScreenInfo/2 + elements.y() * marge, marge, marge));
 		}));
+		return GameControlerSquare.askCoordinateTile(context, widthScreenInfo, heightScreenInfo, marge, tileMoves);
 	}
 	
-	/**
-	 * game runs the function and the main loop for a graphic game of Cascadia with square tiles
-	 * @param context context ApplicationContext representing the application being run
-	 * @param playerBoard Map<Coordinate, TileSquare> representing the board of a player
-	 * @param draw DrawSquare representing the draw
-	 * @param card AnimalCard representing an animal card
-	 */
-	public static void game(ApplicationContext context, Map<Coordinate, TileSquare> playerBoard, DrawSquare draw, AnimalCard card) {
-		var screenInfo = context.getScreenInfo();
-    var width = screenInfo.width();
-    var height = screenInfo.height();
-    var marge = 65;
-    drawPlayer(context, playerBoard, marge, width, height);
-    drawDraw(draw, context, marge, width, height);
-    drawAnimalCard(card, context, width, height);
-    drawOverPopulation(context, width, height);
-    System.out.println(GameControlerSquare.askDraw(context, width, height, marge, draw));
+	public static int menu(ApplicationContext context, int widthScreenInfo, int heightScreenInfo) {
+	   context.renderFrame(graphics -> {
+	      graphics.setColor(Color.WHITE);
+	      graphics.drawString("Does thou wish to play on the terminal or graphic version of Square Cascadia ?", widthScreenInfo / 2 - 100, heightScreenInfo / 2);
+	    });
+	    context.renderFrame(graphics -> drawBox(graphics, widthScreenInfo / 2 - 20, heightScreenInfo / 2 + 100, "terminal"));
+	    context.renderFrame(graphics -> drawBox(graphics, widthScreenInfo / 2 + 120, heightScreenInfo / 2 + 100, "graphic"));
+	  return GameControlerSquare.askGame(context, widthScreenInfo, heightScreenInfo);
 	}
+	
+	public static int drawHead(ApplicationContext context, int widthScreenInfo, int heightScreenInfo, HashMap<Coordinate, TileSquare> player, AnimalCard card, DrawSquare draw, int currentPlayer, int marge) {
+    context.renderFrame(graphics -> {
+      graphics.setColor(Color.BLACK);
+      graphics.fill(new Rectangle2D.Float(0, 0, widthScreenInfo, heightScreenInfo));
+    });
+	  drawPlayer(context, player, marge, widthScreenInfo, heightScreenInfo);
+	  context.renderFrame(graphics -> graphics.drawString("Player : " + currentPlayer, widthScreenInfo / 2, heightScreenInfo / 50 + 50));
+	  drawAnimalCard(card, context, widthScreenInfo, heightScreenInfo);
+	  drawDraw(draw, context, marge, widthScreenInfo, heightScreenInfo);
+	  context.renderFrame(graphics -> graphics.drawString("Pick a tile and wildlife token from the draw up on the left", widthScreenInfo / 2, heightScreenInfo / 50 + 60));
+	  return GameControlerSquare.askDraw(context, widthScreenInfo, heightScreenInfo, marge, draw);
+	}
+	
+	public static void drawWinner(ApplicationContext context, int widthScreen, int heightScreen ,Map<Coordinate, TileSquare> player1, Map<Coordinate, TileSquare> player2, AnimalCard card) {
+	  var point = new CountPointSquare(player1, player2);
+	   context.renderFrame(graphics -> {
+	      graphics.setColor(Color.BLACK);
+	      graphics.fill(new Rectangle2D.Float(0, 0, widthScreen, heightScreen));
+	    });
+	   if(point.winner(card) != 0) {
+	     context.renderFrame(graphics -> {
+	       graphics.setColor(Color.WHITE);
+	       graphics.drawString("The winner is " + point.winner(card), widthScreen / 2 - 100, heightScreen / 2);
+	     });
+	   }
+	   else {
+       context.renderFrame(graphics -> {
+         graphics.setColor(Color.WHITE);
+         graphics.drawString("It is a draw with " + point.pointPlayer()[0] + "points", widthScreen / 2 - 100, heightScreen / 2);
+       });
+	   }
+	}
+	
+	public static AnimalCard drawAskAnimalCard(ApplicationContext context, int widthScreen, int heightScreen) {
+    context.renderFrame(graphics -> {
+      graphics.setColor(Color.WHITE);
+      graphics.drawString("Does thou wish to play with the intermediate card or the family card ?", widthScreen / 2 - 100, heightScreen / 2);
+    });
+    context.renderFrame(graphics -> drawBox(graphics, widthScreen / 2 - 20, heightScreen / 2 + 100, "family"));
+    context.renderFrame(graphics -> drawBox(graphics, widthScreen / 2 + 120, heightScreen / 2 + 100, "intermediate"));
+    return GameControlerSquare.askAnimalCard(context, widthScreen, heightScreen);
+	}
+	
+	public static int drawAskTileBegin(ApplicationContext context, int widthScreen, int heightScreen, int[] forbidenNumber) {
+    context.renderFrame(graphics -> {
+      graphics.setColor(Color.BLACK);
+      graphics.fill(new Rectangle2D.Float(0, 0, widthScreen, heightScreen));
+    });
+    context.renderFrame(graphics -> {
+      graphics.setColor(Color.WHITE);
+      graphics.drawString("Choose one of the boxes to randomly pick a beginning tile, don't pick the same box twice", widthScreen / 2 - 100, heightScreen / 2);
+    });
+    context.renderFrame(graphics -> drawBox(graphics, widthScreen / 4 - 20, heightScreen / 2 + 100, "1"));
+    context.renderFrame(graphics -> drawBox(graphics, widthScreen / 4 + 120, heightScreen / 2 + 100, "2"));
+    context.renderFrame(graphics -> drawBox(graphics, widthScreen / 4 + 260, heightScreen / 2 + 100, "3"));
+    context.renderFrame(graphics -> drawBox(graphics, widthScreen / 4 + 400, heightScreen / 2 + 100, "4"));
+    context.renderFrame(graphics -> drawBox(graphics, widthScreen / 4 + 540, heightScreen / 2 + 100, "5"));
+    return GameControlerSquare.askTileBegin(context, widthScreen, heightScreen, forbidenNumber);
+	}
+	
+	public static void launchGame(ApplicationContext context) {
+	  AlgoSquare game;
+	  var width = context.getScreenInfo().width();
+	  var height = context.getScreenInfo().height();
+	  var gameMode = menu(context, width, height);
+	  if(gameMode == 1) {
+	    context.dispose();
+	    game = AlgoSquare.initializedGame(false, width, height, null);
+	    game.gameTerminal();
+	  }
+	  else {
+	    context.renderFrame(graphics -> {
+        graphics.setColor(Color.BLACK);
+        graphics.fill(new Rectangle2D.Float(0, 0, width, height));
+      });
+	    game = AlgoSquare.initializedGame(true, width, height, context);
+	    game.gameSquareGraphic(context, width, height);
+	  }
+	}
+	
 }

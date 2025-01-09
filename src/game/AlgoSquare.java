@@ -5,6 +5,10 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.github.forax.zen.ApplicationContext;
+
+import graphics.GameControlerSquare;
+import graphics.ViewGameSquare;
 import graphics.ViewTerminal;
 /*This class represent the data structure of a Cascadia game with squares for tiles and limited to 2 players
  * player1 is a HashMap representing the number 1 player
@@ -63,12 +67,19 @@ public final class AlgoSquare {
 	 * initializedGame makes an AlgoSquare in the state to begin a Cascadia square game
 	 * @return an AlgoSquare Object
 	 */
-	public static AlgoSquare initializedGame() {
+	public static AlgoSquare initializedGame(boolean graphic, int width, int height, ApplicationContext context) {
 		var game = new AlgoSquare();
-		card = ViewTerminal.choiceAnimalCard();
-		int[] forbidenNumben = {0};
-		game.tilesBegin(ViewTerminal.choiceTileBegin(forbidenNumben, 1), 1);
-		game.tilesBegin(ViewTerminal.choiceTileBegin(forbidenNumben, 2), 2);
+		int[] forbidenNumber = {0};
+		if(graphic) {
+		  card = ViewGameSquare.drawAskAnimalCard(context, width, height);
+		  game.tilesBegin(ViewGameSquare.drawAskTileBegin(context, width, height, forbidenNumber), 1);
+		  game.tilesBegin(ViewGameSquare.drawAskTileBegin(context, width, height, forbidenNumber), 2);
+		}
+		else {
+		  card = ViewTerminal.choiceAnimalCard();		  
+		  game.tilesBegin(ViewTerminal.choiceTileBegin(forbidenNumber, 1), 1);
+		  game.tilesBegin(ViewTerminal.choiceTileBegin(forbidenNumber, 2), 2);
+		}
 		return game;
 	}
 	
@@ -159,7 +170,7 @@ public final class AlgoSquare {
 	/**
 	 * game is the main function controlling the progress of the game
 	 */
-	public void game() {
+	public void gameTerminal() {
 		var input = 0;
 		var currentPlayer = 1;
 		Map<TileSquare, WildlifeToken> picked = new HashMap<>();
@@ -179,11 +190,54 @@ public final class AlgoSquare {
 				}
 			}
 			input = (currentPlayer == 1) ? ViewTerminal.printHead(player1, card, draw, currentPlayer) : ViewTerminal.printHead(player2, card, draw, currentPlayer);
-			System.out.println(input);
 			picked = draw.pickDraw(input);
 			makeMove(currentPlayer, picked);
 			currentPlayer = (currentPlayer == 1) ? 2 : 1;
 		}
 		winner();
 	}
+	
+	public void makeMoveGraphic(ApplicationContext context,int width, int height, int marge, int player, Map<TileSquare, WildlifeToken> picked) {
+	  var movesTiles = allAvailableTileMove(player);
+	  var movesWildlife = allAvailableWildlifeMove(player, picked.values().iterator().next());
+	  var coordinates = Set.of(ViewGameSquare.drawMoves(movesTiles, context, width, height, marge));
+	  makeTileMove(1, coordinates, player, picked.keySet().iterator().next());
+	  if(movesWildlife.size() == 0) {
+	    draw.wildlife().put(picked.values().iterator().next(), draw.wildlife().get(picked.values().iterator().next()) + 1);
+	    return;
+	  }
+	  coordinates = Set.of((player == 1) ? GameControlerSquare.askPositionWildlifeToken(context, width, height, marge, player1) : GameControlerSquare.askPositionWildlifeToken(context, width, height, marge, player2));
+	  makeWildlifeMove(1, coordinates,picked.values().iterator().next(), player);
+	}
+	
+	public void gameSquareGraphic(ApplicationContext context,int width, int height) {
+	  var marge = 65;
+	  var input = 0;
+	  var currentPlayer = 1;
+	  Map<TileSquare, WildlifeToken> picked = new HashMap<>();
+	  for(var i = 0; i < 40; i++) {
+	    input = draw.isOverpopulation();
+	     for(; input == 3 || input == 4; input = draw.isOverpopulation()) {
+	        if(input == 4) {
+	          draw.overpopulation(4);
+	        }
+	        else if(input == 3) {
+	          if(ViewGameSquare.drawOverPopulation(draw, context, width, height) == 1) {
+	            draw.overpopulation(3);
+	          }
+	          else {
+	            break;
+	          }
+	        }
+	     }
+	     input = (currentPlayer == 1) ? ViewGameSquare.drawHead(context, width, height, player1, card, draw, currentPlayer, marge) : ViewGameSquare.drawHead(context, width, height, player2, card, draw, currentPlayer, marge);
+	     picked = draw.pickDraw(input);
+	     makeMoveGraphic(context, width, height, marge, currentPlayer, picked);
+	     currentPlayer = (currentPlayer == 1) ? 2 : 1;
+	  }
+	  ViewGameSquare.drawWinner(context, width, height, player1, player2, card);
+	  context.pollOrWaitEvent(50000);
+	  context.dispose();
+	}
+	
 }

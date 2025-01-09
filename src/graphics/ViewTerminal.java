@@ -67,7 +67,7 @@ public final class ViewTerminal {
    * @return an int representing the player input
    */
   public static int printHead(HashMap<Coordinate, TileSquare> player, AnimalCard card, DrawSquare draw, int currentPlayer) {
-    var turn = currentPlayer == 1 ? "Player 1 turn : \n" : "Player 2 turn : \n";
+    var turn = currentPlayer == 1 ? "Player 1 turn : " : "Player 2 turn : ";
     System.out.println(turn);
     int[] coordinate = {0, 0, 0, 0};
     getMinAndMaxCoordinate(player, coordinate);
@@ -75,7 +75,7 @@ public final class ViewTerminal {
     System.out.println("Card :");
     printCard(card);
     System.out.println("Draw :");
-    System.out.println(draw + "\n");
+    System.out.println(draw);
     System.out.println("Choose a number between 1 and 4 to draw :");
     return readPlayerInputDraw();
   }
@@ -131,6 +131,7 @@ public final class ViewTerminal {
    * @param coordinate int[] representing the four extreme values
    */
   private static void getMinAndMaxCoordinate(HashMap<Coordinate, TileSquare> player, int[] coordinate) {
+    System.out.println(player);
     var maxX = player.keySet().stream().mapToInt(Coordinate::x).max();
     var minX = player.keySet().stream().mapToInt(Coordinate::x).min();
     var maxY = player.keySet().stream().mapToInt(Coordinate::y).max();
@@ -385,7 +386,7 @@ public final class ViewTerminal {
    */
   public static void printWinner(CountPointSquare point, int winner) {
   	if(winner != 0) {
-  		System.out.println("the winner is player " + winner + " with " + point.pointPlayer()[0] + " Points against " + point.pointPlayer()[1] + " Points for the looser");
+  		System.out.println("the winner is player " + winner + " with " + point.pointPlayer()[winner -1] + " Points against " + point.pointPlayer()[winner -1] + " Points for the looser");
   	}
   	else {
   		System.out.println("it's a tie with " + point.pointPlayer()[0] + " Points");
