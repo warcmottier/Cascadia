@@ -1,6 +1,5 @@
 package game;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -54,7 +53,11 @@ public record WildlifeCount(AnimalCard card) {
   }
   
   
-  
+  /**
+   * groupSizesSquare finds the biggest group of wildlife tokens adjacent to each others
+   * @param player Map<Coordinate, TileSquare> representing the board of a player
+   * @return List<Integer> a list of the sizes of the different groups
+   */
   private List<Integer> groupSizesSquare(Map<Coordinate, TileSquare> player) {
     Set<Coordinate> visited = new HashSet<>();
     return player.keySet().stream()
@@ -63,6 +66,13 @@ public record WildlifeCount(AnimalCard card) {
       .collect(Collectors.toList());
   }
   
+  /**
+   * isNeighborHaveTokenSquare checks if neighbors of the current cell have a wildlife token on them
+   * @param current Coordinate the current cell being checked
+   * @param player Map<Coordinate, TileSquare> representing the board of a player
+   * @param visited Set<Coordinate> representing the cells already checked
+   * @return int the size of a group
+   */
   private int isNeighborHaveTokenSquare(Coordinate current, Map<Coordinate, TileSquare> player, Set<Coordinate> visited) {
     visited.add(current);
     var coordinates = TileSquare.neighbour(current, player);
@@ -75,6 +85,11 @@ public record WildlifeCount(AnimalCard card) {
     return size;
   }
   
+  /**
+   * Transform the size of an animal group to it's corresponding score 
+   * @param size the size of the group
+   * @return int score
+   */
   private static int sizeToScoreIntermediate(int size) {
     if(size <= 0) {
       throw new IllegalArgumentException("Un groupe d'animaux sans animaux, c'est problématique");
@@ -88,92 +103,12 @@ public record WildlifeCount(AnimalCard card) {
   }
   
   /**
-   * Calcul the number of points attributed by the intermediate card
+   * Calculate the number of points attributed by the intermediate card
    * @return int number of points given to the player
    */
   private int cardMedium(Map<Coordinate, TileSquare> player) {
     List<Integer> groupSizes = groupSizesSquare(player);
     return groupSizes.stream().mapToInt(WildlifeCount::sizeToScoreIntermediate).sum();
-  }
-  
-  /**
-   * Calculate the number of points attributed to the player by the bear
-   card A
-   * @return int number of points
-   */
-  private int cardAOurs(HashMap<Coordinate, TileSquare> player) {
-    //Besoin TuileHabitable
-    return 0;
-  }
-  
-  /**
-   * Calculate the number of points attributed to the player by the bear
-   card B
-   * @return int number of points
-   */
-  private int cardBOurs(HashMap<Coordinate, TileSquare> player) {
-    //Besoin TuileHabitable
-    return 0;
-  }
-  
-  /**
-   * Calculate the number of points attributed to the player by the bear
-   card C
-   * @return int number of points
-   */
-  private int cardCOurs(HashMap<Coordinate, TileSquare> player) {
-    //Besoin TuileHabitable
-    return 0;
-  }
-  
-  /**
-   * Calculate the number of points attributed to the player by the bear
-   card D
-   * @return int number of points
-   */
-  private int cardDOurs(HashMap<Coordinate, TileSquare> player) {
-    //Besoin TuileHabitable
-    return 0;
-  }
-  
-  /**
-   * @brief Calculate the number of points attributed to the player by the salmon
-   card A
-   * @return int number of points
-   */
-  private int cardASaumon(HashMap<Coordinate, TileSquare> player) {
-    //Besoin TuileHabitat
-    return 0;
-  }
-  
-  /**
-   * @brief Calculate the number of points attributed to the player by the salmon
-   card B
-   * @return int number of points
-   */
-  private int cardBSaumon(HashMap<Coordinate, TileSquare> player) {
-    //Besoin TuileHabitat
-    return 0;
-  }
-  
-  /**
-   * @brief Calculate the number of points attributed to the player by the salmon
-   card C
-   * @return int number of points
-   */
-  private int cardCSaumon(HashMap<Coordinate, TileSquare> player) {
-    //Besoin TuileHabitat
-    return 0;
-  }
-  
-  /**
-   * @brief Calculate the number of points attributed to the player by the salmon
-   card D
-   * @return int number of points
-   */
-  private int cardDSaumon(HashMap<Coordinate, TileSquare> player) {
-    //Besoin TuileHabitat
-    return 0;
   }
   
   @Override

@@ -1,6 +1,5 @@
 package graphics;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import com.github.forax.zen.ApplicationContext;
@@ -9,10 +8,19 @@ import com.github.forax.zen.PointerEvent;
 import game.Coordinate;
 import game.DrawSquare;
 import game.TileSquare;
-import game.WildlifeToken;
 
+/**
+ * GameControlerSquare contains every functions needed to interact with the player in the graphic square version of Cascadia
+ */
 public final class GameControlerSquare {
 	
+  /**
+   * choiceOverPopulationPlayer takes player input to determine if the player, when available, wish to run an overpopulation
+   * @param pe PointerEvent representing the last event given by the player, a mouse action or a keyboard action
+   * @param widthSreenInfo int representing the width of the screen
+   * @param heightScreenInfo int representing the height of the screen
+   * @return int representing the player choice
+   */
 	private static int choiceOverPopulationPlayer(PointerEvent pe, int widthScreenInfo, int heightScreenInfo) {
 		if (pe.action() != PointerEvent.Action.POINTER_DOWN) {
 			return -1;
@@ -27,6 +35,13 @@ public final class GameControlerSquare {
 		return -1;
 	}
 	
+	/**
+	 * askOverPpulation takes player input and makes sure that it is correct, if not, it will wait for the next event until a correct event is given
+   * @param context ApplicationContext representing the application being run
+   * @param widthSreenInfo int representing the width of the screen
+   * @param heightScreenInfo int representing the height of the screen
+	 * @return int representing the player choice
+	 */
 	public static int askOverPpulation(ApplicationContext context, int widthScreenInfo, int heightScreenInfo) {
 		var event = context.pollOrWaitEvent(10);
 		var hasChosenOverPopulation = -1;
@@ -42,6 +57,15 @@ public final class GameControlerSquare {
 		return hasChosenOverPopulation;
 	}
 	
+	/**
+	 * choicePositionWildlifeTokenPlayer takes player input to determine on which tile the player wish to put his wildlife token
+   * @param pe PointerEvent representing the last event given by the player, a mouse action or a keyboard action
+   * @param widthSreenInfo int representing the width of the screen
+   * @param heightScreenInfo int representing the height of the screen
+	 * @param marge int representing the size of the rectangle for a tile
+	 * @param playerBoard Map<Coordinate, TileSquare> representing the board of a player
+	 * @return TileSquare representing the player choice
+	 */
 	private static TileSquare choicePositionWildlifeTokenPlayer(PointerEvent pe, int widthScreenInfo, int heightScreenInfo, int marge, Map<Coordinate, TileSquare> playerBoard) {
 		if (pe.action() != PointerEvent.Action.POINTER_DOWN) {
 			return null;
@@ -56,6 +80,15 @@ public final class GameControlerSquare {
 	  return chosenCoordinate.map(playerBoard::get).orElse(null);
 	}
 	
+	/**
+	 * askPositionWildlifeToken takes player input and makes sure that it is correct, if not, it will wait for the next event until a correct event is given
+	 * @param context ApplicationContext representing the application being run
+   * @param widthSreenInfo int representing the width of the screen
+   * @param heightScreenInfo int representing the height of the screen
+   * @param marge int representing the size of the rectangle for a tile
+   * @param playerBoard Map<Coordinate, TileSquare> representing the board of a player
+	 * @return TileSquare representing the player choice
+	 */
 	public static TileSquare askPositionWildlifeToken(ApplicationContext context, int widthScreenInfo, int heightScreenInfo, int marge, Map<Coordinate, TileSquare> playerBoard) {
 		var event = context.pollOrWaitEvent(10);
 		TileSquare choicetile = null;
@@ -71,6 +104,15 @@ public final class GameControlerSquare {
 		return choicetile;
 	}
 	
+	/**
+	 * choicePositionTilePlayer takes player input to determine on which tile the player wish to put his tile
+   * @param pe PointerEvent representing the last event given by the player, a mouse action or a keyboard action
+   * @param widthSreenInfo int representing the width of the screen
+   * @param heightScreenInfo int representing the height of the screen
+   * @param marge int representing the size of the rectangle for a tile
+	 * @param movesTile Set<Coordinate> representing the available tile moves
+	 * @return Coordinate representing the player choice
+	 */
 	private static Coordinate choicePositionTilePlayer(PointerEvent pe, int widthScreenInfo, int heightScreenInfo, int marge, Set<Coordinate> movesTile) {
     if (pe.action() != PointerEvent.Action.POINTER_DOWN) {
         return null;
@@ -85,6 +127,15 @@ public final class GameControlerSquare {
             .orElse(null);
 	}
 	
+	/**
+	 * askCoordinateTile takes player input and makes sure that it is correct, if not, it will wait for the next event until a correct event is given
+   * @param context ApplicationContext representing the application being run
+   * @param widthSreenInfo int representing the width of the screen
+   * @param heightScreenInfo int representing the height of the screen
+   * @param marge int representing the size of the rectangle for a tile
+	 * @param movesTile Set<Coordinate> representing the available tile moves
+	 * @return Coordinate representing the player choice
+	 */
 	public static Coordinate askCoordinateTile(ApplicationContext context, int widthScreenInfo, int heightScreenInfo, int marge, Set<Coordinate> movesTile) {
 		var event = context.pollOrWaitEvent(10);
 		Coordinate choicetile = null;
@@ -100,6 +151,15 @@ public final class GameControlerSquare {
 		return choicetile;
 	}
 	
+	/**
+	 * choiceDrawPlayer takes player input to determine which tile and wildlife token the player wish to draw
+   * @param pe PointerEvent representing the last event given by the player, a mouse action or a keyboard action
+   * @param widthSreenInfo int representing the width of the screen
+   * @param heightScreenInfo int representing the height of the screen
+   * @param marge int representing the size of the rectangle for a tile
+	 * @param draw DrawSquare representing the draw
+	 * @return int representing the player choice
+	 */
 	private static int choiceDrawPlayer(PointerEvent pe, int widthScreenInfo, int heightScreenInfo, int marge, DrawSquare draw) {
 		if (pe.action() != PointerEvent.Action.POINTER_DOWN) {
 			return -1;
@@ -120,6 +180,15 @@ public final class GameControlerSquare {
 		return -1;
 	}
 	
+	/**
+	 * askDraw takes player input and makes sure that it is correct, if not, it will wait for the next event until a correct event is given
+   * @param context ApplicationContext representing the application being run
+   * @param widthSreenInfo int representing the width of the screen
+   * @param heightScreenInfo int representing the height of the screen
+   * @param marge int representing the size of the rectangle for a tile
+	 * @param draw DrawSquare representing the draw
+   * @return int representing the player choice
+	 */
 	public static int askDraw(ApplicationContext context, int widthScreenInfo, int heightScreenInfo, int marge, DrawSquare draw) {
 		var event = context.pollOrWaitEvent(10);
 		var choicetile = -1;
