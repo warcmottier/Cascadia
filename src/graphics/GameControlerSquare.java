@@ -98,10 +98,12 @@ public final class GameControlerSquare {
    * @param playerBoard Map<Coordinate, TileSquare> representing the board of a player
 	 * @return TileSquare representing the player choice
 	 */
-	public static Coordinate askPositionWildlifeToken(ApplicationContext context, int widthScreenInfo, int heightScreenInfo, int marge, Map<Coordinate, TileSquare> playerBoard) {
+	public static Coordinate askPositionWildlifeToken(ApplicationContext context, int widthScreenInfo, int heightScreenInfo, int marge, Map<Coordinate, TileSquare> playerBoard, Set<Coordinate> movesWildlife) {
 	  context.renderFrame(graphics -> {
+	  	graphics.setColor(Color.BLACK);
+			graphics.drawString("Play your tile by clicking on one of the gray tile", widthScreenInfo / 2 - 100, heightScreenInfo / 50 + 80);
       graphics.setColor(Color.WHITE);
-      graphics.drawString("Play yout Wildlife token by clicking on one of your tiles", widthScreenInfo / 2 - 100, heightScreenInfo / 50 + 80);
+      graphics.drawString("Play your Wildlife token by clicking on one of your tiles", widthScreenInfo / 2 - 100, heightScreenInfo / 50 + 80);
     });
 	  var event = context.pollOrWaitEvent(10);
 		Coordinate choicetile = null;
@@ -112,6 +114,9 @@ public final class GameControlerSquare {
 				case PointerEvent pe -> choicePositionWildlifeTokenPlayer(pe, widthScreenInfo, heightScreenInfo, marge, playerBoard);
 				default ->throw new IllegalArgumentException("Unexpected value: " + event);
 			};
+			if(!movesWildlife.contains(choicetile)) {
+				choicetile = null;
+			}
 			event = context.pollOrWaitEvent(10);
 		}
 		return choicetile;
@@ -287,9 +292,9 @@ public final class GameControlerSquare {
       return choiceAnimalCard;
   }
 	
-	 public static int choiceTileBegin(PointerEvent pe ,int widthScreenInfo, int heightScreenInfo) {
+	 public static int choiceTileBegin(PointerEvent pe ,int widthScreenInfo, int heightScreenInfo, int[] forbidenNumber) {
      if (pe.action() != PointerEvent.Action.POINTER_DOWN) {
-       return -1;
+       return forbidenNumber[0];
      }
      var location = pe.location();
      if(location.x() > widthScreenInfo / 4 - 20 && location.x() < widthScreenInfo / 4 + 45 && location.y() > heightScreenInfo / 2 + 120 && location.y() < heightScreenInfo /2 + 165) {
@@ -307,24 +312,22 @@ public final class GameControlerSquare {
      if(location.x() > widthScreenInfo / 4 + 540 && location.x() < widthScreenInfo / 4 + 605 && location.y() > heightScreenInfo / 2 + 120 && location.y() < heightScreenInfo /2 + 165) {
        return 5;
      }
-     return -1;
+     return forbidenNumber[0];
 	 }
 	 
 	 public static int askTileBegin(ApplicationContext context, int widthScreenInfo, int heightScreenInfo, int[] forbidenNumber) {
      var event = context.pollOrWaitEvent(10);
-     var choiceTileBegin = -1;
-     for(; choiceTileBegin == -1;) {
+     var choiceTileBegin = forbidenNumber[0];
+     for(; choiceTileBegin == forbidenNumber[0];) {
        for(; event == null; event = context.pollOrWaitEvent(10));
        choiceTileBegin = switch (event) {
-         case KeyboardEvent ke -> -1;
-         case PointerEvent pe -> choiceTileBegin(pe, widthScreenInfo, heightScreenInfo);
+         case KeyboardEvent ke -> forbidenNumber[0];
+         case PointerEvent pe -> choiceTileBegin(pe, widthScreenInfo, heightScreenInfo, forbidenNumber);
          default ->throw new IllegalArgumentException("Unexpected value: " + event);
        };
-       if(choiceTileBegin == forbidenNumber[0]) {
-         choiceTileBegin = -1;
-       }
-       else {
-         forbidenNumber[0] = choiceTileBegin;         
+       if(choiceTileBegin != forbidenNumber[0]) {
+      	 forbidenNumber[0] = choiceTileBegin;
+      	 break;
        }
        event = context.pollOrWaitEvent(10);
      }

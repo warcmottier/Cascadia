@@ -197,7 +197,7 @@ public final class ViewGameSquare {
 	      graphics.setColor(Color.BLACK);
 	      graphics.fill(new Rectangle2D.Float(0, 0, widthScreenInfo, heightScreenInfo));
 	    });
-	  drawDraw(draw, context, heightScreenInfo, widthScreenInfo, heightScreenInfo);
+	  drawDraw(draw, context, 65, widthScreenInfo, heightScreenInfo);
 		context.renderFrame(graphics -> {
 			graphics.setColor(Color.WHITE);
 			graphics.drawString("do you want to do the overPopulation", widthScreenInfo / 50 - 20, heightScreenInfo - 150);
@@ -219,7 +219,12 @@ public final class ViewGameSquare {
 		tileMoves.forEach(elements -> context.renderFrame(graphics -> {
 			graphics.setColor(Color.GRAY);
 			graphics.fill(new Rectangle2D.Float(widthScreenInfo/2 + elements.x() * marge, heightScreenInfo/2 + elements.y() * marge, marge, marge));
+			graphics.setColor(Color.BLACK);
+      graphics.drawString("Pick a tile and wildlife token from the draw up on the left", widthScreenInfo / 2 - 100, heightScreenInfo / 50 + 80);
+			graphics.setColor(Color.WHITE);
+			graphics.drawString("Play your tile by clicking on one of the gray tile", widthScreenInfo / 2 - 100, heightScreenInfo / 50 + 80);
 		}));
+		
 		return GameControlerSquare.askCoordinateTile(context, widthScreenInfo, heightScreenInfo, marge, tileMoves);
 	}
 	
@@ -237,12 +242,13 @@ public final class ViewGameSquare {
     context.renderFrame(graphics -> {
       graphics.setColor(Color.BLACK);
       graphics.fill(new Rectangle2D.Float(0, 0, widthScreenInfo, heightScreenInfo));
+      graphics.setColor(Color.WHITE);
+      graphics.drawString("Pick a tile and wildlife token from the draw up on the left", widthScreenInfo / 2 - 100, heightScreenInfo / 50 + 80);
     });
 	  drawPlayer(context, player, marge, widthScreenInfo, heightScreenInfo);
 	  context.renderFrame(graphics -> graphics.drawString("Player : " + currentPlayer, widthScreenInfo / 2, heightScreenInfo / 50 + 50));
 	  drawAnimalCard(card, context, widthScreenInfo, heightScreenInfo);
 	  drawDraw(draw, context, marge, widthScreenInfo, heightScreenInfo);
-	  context.renderFrame(graphics -> graphics.drawString("Pick a tile and wildlife token from the draw up on the left", widthScreenInfo / 2, heightScreenInfo / 50 + 60));
 	  return GameControlerSquare.askDraw(context, widthScreenInfo, heightScreenInfo, marge, draw);
 	}
 	

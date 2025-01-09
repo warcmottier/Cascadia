@@ -69,7 +69,7 @@ public final class AlgoSquare {
 	 */
 	public static AlgoSquare initializedGame(boolean graphic, int width, int height, ApplicationContext context) {
 		var game = new AlgoSquare();
-		int[] forbidenNumber = {0};
+		int[] forbidenNumber = {-1};
 		if(graphic) {
 		  card = ViewGameSquare.drawAskAnimalCard(context, width, height);
 		  game.tilesBegin(ViewGameSquare.drawAskTileBegin(context, width, height, forbidenNumber), 1);
@@ -206,7 +206,13 @@ public final class AlgoSquare {
 	    draw.wildlife().put(picked.values().iterator().next(), draw.wildlife().get(picked.values().iterator().next()) + 1);
 	    return;
 	  }
-	  coordinates = Set.of((player == 1) ? GameControlerSquare.askPositionWildlifeToken(context, width, height, marge, player1) : GameControlerSquare.askPositionWildlifeToken(context, width, height, marge, player2));
+	  if(player == 1) {
+	  	ViewGameSquare.drawPlayer(context, player1, marge, width, height);
+	  }
+	  else {
+	  	ViewGameSquare.drawPlayer(context, player2, marge, width, height);
+	  }
+	  coordinates = Set.of((player == 1) ? GameControlerSquare.askPositionWildlifeToken(context, width, height, marge, player1, movesWildlife) : GameControlerSquare.askPositionWildlifeToken(context, width, height, marge, player2, movesWildlife));
 	  makeWildlifeMove(1, coordinates,picked.values().iterator().next(), player);
 	}
 	
