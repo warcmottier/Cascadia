@@ -1,6 +1,7 @@
 package game;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -218,7 +219,9 @@ public final class AlgoSquare {
 	 * @param player int representing the current player
 	 * @param picked Map<TileSquare, WildlifeToken> representing the player choice from the draw
 	 */
-	public void makeMoveGraphic(ApplicationContext context,int width, int height, int marge, int player, Map<TileSquare, WildlifeToken> picked) {
+	public void makeMoveGraphic(ApplicationContext context, int width, int height, int marge, int player, Map<TileSquare, WildlifeToken> picked) {
+	  Objects.requireNonNull(context);
+	  Objects.requireNonNull(picked);
 	  var movesTiles = allAvailableTileMove(player);
 	  var movesWildlife = allAvailableWildlifeMove(player, picked.values().iterator().next());
 	  var coordinates = Set.of(ViewGameSquare.drawMoves(movesTiles, context, width, height, marge));
@@ -257,7 +260,7 @@ public final class AlgoSquare {
           break;
         }
       }
-   }
+    }
 	}
 	
 	/**
@@ -267,6 +270,7 @@ public final class AlgoSquare {
    * @param height int representing the height of the screen
 	 */
 	public void gameSquareGraphic(ApplicationContext context,int width, int height) {
+	  Objects.requireNonNull(context);
 	  var marge = 65;
 	  var input = 0;
 	  var currentPlayer = 1;

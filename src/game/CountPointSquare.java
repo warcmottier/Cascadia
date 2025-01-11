@@ -78,6 +78,7 @@ public record CountPointSquare(Map<Coordinate, TileSquare> player1, Map<Coordina
 	 * @return an int representing the winning player
 	 */
 	public int winner(AnimalCard card) {
+	  Objects.requireNonNull(card);
 		pointPlayer[0] = countPoint(1, card);
 		pointPlayer[1] = countPoint(2, card);
 		if(pointPlayer[0] > pointPlayer[1]) {

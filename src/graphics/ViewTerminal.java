@@ -4,6 +4,7 @@ import game.*;
 import java.lang.StringBuilder;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.io.Console;
 
@@ -18,10 +19,9 @@ public final class ViewTerminal {
    */
   private static void printCard(AnimalCard card) {
     switch (card) {
-    case AnimalCard.FAMILY -> System.out.println(card.pointAnimal());
-    case AnimalCard.INTERMEDIATE -> System.out.println(card.pointAnimal());
-    default ->
-    throw new IllegalArgumentException("Unexpected value: " + card);
+      case AnimalCard.FAMILY -> System.out.println(card.pointAnimal());
+      case AnimalCard.INTERMEDIATE -> System.out.println(card.pointAnimal());
+      default -> throw new IllegalArgumentException("Unexpected value: " + card);
     }
   }
   
@@ -35,17 +35,18 @@ public final class ViewTerminal {
     for(;;) {
       String inputString = console.readLine();
       try {
-          input = Integer.parseInt(inputString);
-          if (input >= 1 && input <= 4) {
-              return input;
-          }
-          else { 
-            System.out.println("Wrong input, enter a number between 1 and 4.");
-            }
-      } catch (NumberFormatException e) { 
-        System.out.println("Invalid input, please enter a valid number between 1 and 4.");
+        input = Integer.parseInt(inputString);
+        if (input >= 1 && input <= 4) {
+          return input;
         }
+        else { 
+          System.out.println("Wrong input, enter a number between 1 and 4.");
+        }
+      } 
+      catch (NumberFormatException e) { 
+        System.out.println("Invalid input, please enter a valid number between 1 and 4.");
       }
+    }
   }
   
   /**
@@ -56,16 +57,17 @@ public final class ViewTerminal {
     int input = -1;
     Console console = System.console();
     if (console == null) {
-        System.out.println("Console is unavailable. Please run this program in a terminal.");
-        System.exit(1);
-        }
+      System.out.println("Console is unavailable. Please run this program in a terminal.");
+      System.exit(1);
+    }
     try {               //Makes sure no wrong input causes the application to terminate with an error
-        input = checkInputDraw(console, input);
-    } catch (Exception e) {
-        System.out.println("An error occurred while reading input.");
-        e.printStackTrace();
-        System.exit(1);
-      }
+      input = checkInputDraw(console, input);
+    } 
+    catch (Exception e) {
+      System.out.println("An error occurred while reading input.");
+      e.printStackTrace();
+      System.exit(1);
+    }
     return input;
   }
 
@@ -78,6 +80,9 @@ public final class ViewTerminal {
    * @return an int representing the player input
    */
   public static int printHead(HashMap<Coordinate, TileSquare> player, AnimalCard card, DrawSquare draw, int currentPlayer) {
+    Objects.requireNonNull(player);
+    Objects.requireNonNull(card);
+    Objects.requireNonNull(draw);
     var turn = currentPlayer == 1 ? "Player 1 turn : " : "Player 2 turn : ";
     System.out.println(turn);
     int[] coordinate = {0, 0, 0, 0};
@@ -101,13 +106,15 @@ public final class ViewTerminal {
     for(;;) {
       input = console.readLine().trim().toLowerCase();
       if (input.equals("yes")) {
-          return true;  
-      } else if (input.equals("no")) {
-          return false; 
-      } else { 
+        return true;  
+      } 
+      else if (input.equals("no")) {
+        return false; 
+      } 
+      else { 
         System.out.println("Wrong input, enter yes or no");
-        }
       }
+    }
   }
   
   /**
@@ -119,16 +126,17 @@ public final class ViewTerminal {
     boolean value = false;
     Console console = System.console();
     if (console == null) {
-        System.out.println("Console is unavailable. Please run this program in a terminal.");
-        System.exit(1);
-        }
+      System.out.println("Console is unavailable. Please run this program in a terminal.");
+      System.exit(1);
+    }
     try {
-        value = checkInputOverpopulation(console, input);
-    } catch (Exception e) {
-        System.out.println("An error occurred while reading input.");
-        e.printStackTrace();
-        System.exit(1);
-        }
+      value = checkInputOverpopulation(console, input);
+    } 
+    catch (Exception e) {
+      System.out.println("An error occurred while reading input.");
+      e.printStackTrace();
+      System.exit(1);
+    }
     return value;
   }
 
@@ -138,10 +146,10 @@ public final class ViewTerminal {
    * @return a boolean representing the player input, true means yes, false means no
    */
   public static boolean askOverpopulation(DrawSquare draw) {
+    Objects.requireNonNull(draw);
   	System.out.println(draw);
   	System.out.println("do you wish to run the OverPopulation yes or no");
   	return readPlayerInputOverpopulation();
-  	
   }
   
   /**
@@ -234,13 +242,13 @@ public final class ViewTerminal {
    */
   private static String printWildlifeToken(Map<Coordinate, TileSquare> player, Coordinate currentCoordinate, int cellWidth) {
     var wildlifeToString = new StringBuilder();
-      var animal = player.get(currentCoordinate).animal();
-      var size = animal.toString().length();
-      wildlifeToString.append("\u001B[32m" + animal.toString() + "\u001B[0m");
-      for(int z = size; z < cellWidth - 1; z++) {
-        wildlifeToString.append(" ");
-      }
-      wildlifeToString.append("|");
+    var animal = player.get(currentCoordinate).animal();
+    var size = animal.toString().length();
+    wildlifeToString.append("\u001B[32m" + animal.toString() + "\u001B[0m");
+    for(int z = size; z < cellWidth - 1; z++) {
+      wildlifeToString.append(" ");
+    }
+    wildlifeToString.append("|");
     return wildlifeToString.toString();
   }
   
@@ -283,7 +291,7 @@ public final class ViewTerminal {
     if(u == 1) {
       if(player.get(currentCoordinate).animal() != null) {
         animalToString.append(printWildlifeToken(player, currentCoordinate, cellWidth));
-       }
+      }
       else {
         animalToString.append(printAnimalAccepted(player, currentCoordinate, cellWidth));
       }
@@ -325,11 +333,11 @@ public final class ViewTerminal {
         var currentCoordinate = new Coordinate(j, i);
         playerBoard.append(printCellContent(player, currentCoordinate, cellWidth, u));
         if(u == 2 || player.get(currentCoordinate) == null) {
-        playerBoard.append("              |");
+          playerBoard.append("              |");
         }
-        }
-      playerBoard.append("\n");
       }
+      playerBoard.append("\n");
+    }
     return playerBoard.toString();
   }
   
@@ -347,16 +355,16 @@ public final class ViewTerminal {
     playerBoard.append(printXcoordinate(minY, maxY));
     for(int w = minY; w < maxY + 1; w++) {
       playerBoard.append("_______________");
-      }
+    }
     playerBoard.append("\n");
     for(int i = minX; i <= maxX; i++) {
       playerBoard.append(printRow(player, minY, maxY, i, cellWidth));
       playerBoard.append("     ");
       for(int j = minY; j <= maxY; j++) {
         playerBoard.append("_______________");
-        }
-      playerBoard.append("\n");
       }
+      playerBoard.append("\n");
+    }
     System.out.println(playerBoard.toString());
   }
   
@@ -371,16 +379,18 @@ public final class ViewTerminal {
     for(;;) {
       String inputLine = console.readLine();
       try {
-          input = Integer.parseInt(inputLine.trim());
-          if (input >= 1 && input <= size) { 
-            return input; 
-          } else { 
-            System.out.println("Wrong input, enter a number between 1 and " + size + ".");
-            }
-      } catch (NumberFormatException e) {
-          System.out.println("Invalid input, please enter a valid number between 1 and " + size + ".");
-          }
+        input = Integer.parseInt(inputLine.trim());
+        if (input >= 1 && input <= size) { 
+          return input; 
+        } 
+        else { 
+          System.out.println("Wrong input, enter a number between 1 and " + size + ".");
+        }
+      } 
+      catch (NumberFormatException e) {
+        System.out.println("Invalid input, please enter a valid number between 1 and " + size + ".");
       }
+    }
   }
   
   /**
@@ -392,16 +402,17 @@ public final class ViewTerminal {
     int input = -1;
     Console console = System.console();
     if (console == null) {
-        System.out.println("Console is unavailable. Please run this program in a terminal.");
-        System.exit(1);
-        }
+      System.out.println("Console is unavailable. Please run this program in a terminal.");
+      System.exit(1);
+    }
     try {
       input = checkInputMoveTilesOrWildlife(console, input, size);
-    } catch (Exception e) {
-        System.out.println("An error occurred while reading input.");
-        e.printStackTrace();
-        System.exit(1);
-        }
+    } 
+    catch (Exception e) {
+      System.out.println("An error occurred while reading input.");
+      e.printStackTrace();
+      System.exit(1);
+    }
     return input;
   }
 
@@ -409,9 +420,10 @@ public final class ViewTerminal {
    * choiceMoveTileOrWildelife prints the available tile or wildlife moves
    * @param moves Set<Coordinate> representing all the moves available
    * @param tileOrNot boolean representing if it's a tile or a wildlife token move
-   * @return
+   * @return int representing the player input
    */
   public static int choiceMoveTileOrWildelife(Set<Coordinate> moves, boolean tileOrNot) {
+    Objects.requireNonNull(moves);
   	int[] index = {1};
   	moves.stream().map(coordinate -> index[0]++ + " - " + coordinate)
   		.forEach(System.out::println);
@@ -430,6 +442,7 @@ public final class ViewTerminal {
    * @param winner int representing the winning player
    */
   public static void printWinner(CountPointSquare point, int winner) {
+    Objects.requireNonNull(point);
   	if(winner != 0) {
   		System.out.println("the winner is player " + winner + " with " + point.pointPlayer()[winner -1] + " Points against " + point.pointPlayer()[winner -1] + " Points for the looser");
   	}
@@ -448,13 +461,15 @@ public final class ViewTerminal {
     for(;;) {
       input = console.readLine().trim().toLowerCase();
       if (input.equals("family")) {
-          return true;  
-      } else if (input.equals("intermediary")) {
-          return false; 
-      } else { 
+        return true;  
+      } 
+      else if (input.equals("intermediary")) {
+        return false; 
+      } 
+      else { 
         System.out.println("Wrong input, enter 'family' or 'intermediary'.");
-        }
       }
+    }
   }
   
   /**
@@ -466,16 +481,17 @@ public final class ViewTerminal {
     String input = null;
     Console console = System.console();
     if (console == null) {
-        System.out.println("Console is unavailable. Please run this program in a terminal.");
-        System.exit(1);
-        }
+      System.out.println("Console is unavailable. Please run this program in a terminal.");
+      System.exit(1);
+    }
     try {
       value = checkInputAnimal(console, input);
-    } catch (Exception e) {
-        System.out.println("An error occurred while reading input.");
-        e.printStackTrace();
-        System.exit(1);
-        }
+    } 
+    catch (Exception e) {
+      System.out.println("An error occurred while reading input.");
+      e.printStackTrace();
+      System.exit(1);
+    }
     return value;
   }
   
@@ -492,30 +508,43 @@ public final class ViewTerminal {
 	}
   
   /**
+   * checkPlayerInputTileBegin checks the player input when choosing a beginning tile
+   * @param forbidenNumber  int[] the tiles already taken by an other player
+   * @param console Console representing the terminal
+   * @return int the player's choice
+   */
+  private static int checkPlayerInputTileBegin(int[] forbidenNumber, Console console) {
+    var input = -1;
+    for(;;) {
+      String inputLine = console.readLine();
+      try {
+        input = Integer.parseInt(inputLine);
+        if (input >= 1 && input <= 5 && input != forbidenNumber[0]) {
+          forbidenNumber[0] = input;
+          return input;
+        } 
+        else {
+          System.out.println("Wrong input, enter a number between 1 and 5 or don't take the same tile as the previous player.");
+        }
+      } 
+      catch (NumberFormatException e) {
+        System.out.println("Invalid input, please enter a valid number.");
+      }
+    }
+  }
+  
+  /**
    * readPlayerInputTileBegin takes the player input to determine their beginning tile
-   * @param forbidenNumber the tiles already taken by an other player
+   * @param forbidenNumber int[] the tiles already taken by an other player
    * @return int representing the player input
    */
   private static int readPlayerInputTileBegin(int[] forbidenNumber) {
-    var input = -1;
     Console console = System.console();
     if (console == null) {
-        System.out.println("Console is not available.");
-        System.exit(1);
+      System.out.println("Console is not available.");
+      System.exit(1);
     }
-    for(;;) {
-        String inputLine = console.readLine();
-        try {
-            input = Integer.parseInt(inputLine);
-            if (input >= 1 && input <= 5 && input != forbidenNumber[0]) {
-            		forbidenNumber[0] = input;
-                break;
-            } else {
-                System.out.println("Wrong input, enter a number between 1 and 5 or don't take the same tile as the previous player.");
-            }
-        } catch (NumberFormatException e) {
-            System.out.println("Invalid input, please enter a valid number.");}}
-    return input;
+    return checkPlayerInputTileBegin(forbidenNumber, console);
  }
 
   /**

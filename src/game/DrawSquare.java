@@ -23,7 +23,7 @@ public final class DrawSquare {
   private final List<TileSquare> tiles = new ArrayList<>();
   
   /**
-   * draw is the public accessor for the draw field
+   * draw is the public getter for the draw field
    * @return the content of the draw field
    */
   public Map<TileSquare, WildlifeToken>  draw() {
@@ -31,7 +31,7 @@ public final class DrawSquare {
   }
   
   /**
-   * draw is the public accessor for the wildlife field
+   * draw is the public getter for the wildlife field
    * @return the content of the wildlife field
    */
   public Map<WildlifeToken, Integer> wildlife() {
@@ -39,7 +39,7 @@ public final class DrawSquare {
   }
   
   /**
-   * draw is the public accessor for the tiles field
+   * draw is the public getter for the tiles field
    * @return the content of the tiles field
    */
   public List<TileSquare> tiles() {

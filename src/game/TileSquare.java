@@ -31,7 +31,7 @@ public final class TileSquare {
 	}
 	
 	/**
-	 * the accessor for the landscape field
+	 * the getter for the landscape field
 	 * @return the content of the landscape field
 	 */
 	public Landscape landscape() {
@@ -39,7 +39,7 @@ public final class TileSquare {
 	}
 	
 	 /**
-   * the accessor for the animal field
+   * the getter for the animal field
    * @return the content of the animal field
    */
 	public WildlifeToken animal() {
@@ -47,7 +47,7 @@ public final class TileSquare {
 	}
 	
 	 /**
-   * the accessor for the animalAccepted field
+   * the getter for the animalAccepted field
    * @return the content of the animalAccepted field
    */
 	public Set<WildlifeToken> animalAccepted() {
@@ -55,7 +55,7 @@ public final class TileSquare {
 	}
 	
 	 /**
-   * the accessor for the wildlife field
+   * the getter for the wildlife field
    * @return the content of the wildlife field
    */
 	public void setWildlifeToken(WildlifeToken wildLife) {

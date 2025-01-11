@@ -92,7 +92,7 @@ public record WildlifeCount(AnimalCard card) {
    */
   private static int sizeToScoreIntermediate(int size) {
     if(size <= 0) {
-      throw new IllegalArgumentException("Un groupe d'animaux sans animaux, c'est problématique");
+      throw new IllegalArgumentException("An animal group without any animal, is, infact, an issue");
     }
     return switch(size) {
       case 1 -> 0;
