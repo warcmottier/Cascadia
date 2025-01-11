@@ -13,9 +13,9 @@ import java.util.Random;
 
 /**
  * DrawSquare is an Object representing the Draw for an AlgoSquare
- * draw is a Map<TileSquare, WildlifeToken> representing the draw of the players
- * wildlife is a Map<WildlifeToken, Integer> representing the total number of wildlife token available and left for the current game
- * tiles is a List<TileSquare> representing the total number of tiles available and left for this game, when none are left the game ends
+ * draw is a Map representing the draw of the players
+ * wildlife is a Map representing the total number of wildlife token available and left for the current game
+ * tiles is a List representing the total number of tiles available and left for this game, when none are left the game ends
  */
 public final class DrawSquare {
   private final Map<TileSquare, WildlifeToken> draw = new HashMap<>();
@@ -59,7 +59,7 @@ public final class DrawSquare {
   
   /**
    * generateAnimalAccepted generates the animal accepted for a tile
-   * @return a Set<WildlifeToken> representing the animal accepted by a tile
+   * @return a Set representing the animal accepted by a tile
    */
   private Set<WildlifeToken> generateAnimalAccepted() {
     Set<WildlifeToken> animalaccepted = new HashSet<>();
@@ -100,7 +100,7 @@ public final class DrawSquare {
   /**
    * pickDraw picks an element from the draw according to the player input
    * @param picked an int representing the player input
-   * @return Map<TileSquare, WildlifeToken> representing the picked tile and wildlife token
+   * @return Map representing the picked tile and wildlife token
    */
   public Map<TileSquare, WildlifeToken> pickDraw(int picked) {
     Objects.checkIndex(picked - 1, draw.size());
@@ -116,7 +116,7 @@ public final class DrawSquare {
 
   /**
    * initializeValueCount initialize the number of each WildlifeToken in the draw
-   * @return Map<WildlifeToken, Long> representing the number of WildlifeToken for each Wildlife
+   * @return Map representing the number of WildlifeToken for each Wildlife
    */
   private Map<WildlifeToken, Long> initializeValueCount() {
     var valuecount = draw.values().stream()

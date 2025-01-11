@@ -15,6 +15,10 @@ public enum Landscape {
 		this.landscape = landscape;
 	}
 	
+	/**
+	 * the getter for the String of landscape field
+	 * @return the content of the landscape field
+	 */
 	public String landscape() {
 		return landscape;
 	}

@@ -21,7 +21,7 @@ public final class GameControlerSquare {
   /**
    * choiceOverPopulationPlayer takes player input to determine if the player, when available, wish to run an overpopulation
    * @param pe PointerEvent representing the last event given by the player, a mouse action or a keyboard action
-   * @param widthSreenInfo int representing the width of the screen
+   * @param widthScreenInfo int representing the width of the screen
    * @param heightScreenInfo int representing the height of the screen
    * @return int representing the player choice
    */
@@ -48,7 +48,7 @@ public final class GameControlerSquare {
 	/**
 	 * askOverPpulation takes player input and makes sure that it is correct, if not, it will wait for the next event until a correct event is given
    * @param context ApplicationContext representing the application being run
-   * @param widthSreenInfo int representing the width of the screen
+   * @param widthScreenInfo int representing the width of the screen
    * @param heightScreenInfo int representing the height of the screen
 	 * @return int representing the player choice
 	 */
@@ -71,7 +71,7 @@ public final class GameControlerSquare {
 	/**
 	 * choicePositionWildlifeTokenPlayer takes player input to determine on which tile the player wish to put his wildlife token
    * @param pe PointerEvent representing the last event given by the player, a mouse action or a keyboard action
-   * @param widthSreenInfo int representing the width of the screen
+   * @param widthScreenInfo int representing the width of the screen
    * @param heightScreenInfo int representing the height of the screen
 	 * @param marge int representing the size of the rectangle for a tile
 	 * @param playerBoard Map<Coordinate, TileSquare> representing the board of a player
@@ -94,10 +94,11 @@ public final class GameControlerSquare {
 	/**
 	 * askPositionWildlifeToken takes player input and makes sure that it is correct, if not, it will wait for the next event until a correct event is given
 	 * @param context ApplicationContext representing the application being run
-   * @param widthSreenInfo int representing the width of the screen
+   * @param widthScreenInfo int representing the width of the screen
    * @param heightScreenInfo int representing the height of the screen
    * @param marge int representing the size of the rectangle for a tile
-   * @param playerBoard Map<Coordinate, TileSquare> representing the board of a player
+   * @param playerBoard Map representing the board of a player
+   * @param movesWildlife is a Set representing all the player moves
 	 * @return TileSquare representing the player choice
 	 */
 	public static Coordinate askPositionWildlifeToken(ApplicationContext context, int widthScreenInfo, int heightScreenInfo, int marge, Map<Coordinate, TileSquare> playerBoard, Set<Coordinate> movesWildlife) {
@@ -128,10 +129,10 @@ public final class GameControlerSquare {
 	/**
 	 * choicePositionTilePlayer takes player input to determine on which tile the player wish to put his tile
    * @param pe PointerEvent representing the last event given by the player, a mouse action or a keyboard action
-   * @param widthSreenInfo int representing the width of the screen
+   * @param widthScreenInfo int representing the width of the screen
    * @param heightScreenInfo int representing the height of the screen
    * @param marge int representing the size of the rectangle for a tile
-	 * @param movesTile Set<Coordinate> representing the available tile moves
+	 * @param movesTile Set representing the available tile moves
 	 * @return Coordinate representing the player choice
 	 */
 	private static Coordinate choicePositionTilePlayer(PointerEvent pe, int widthScreenInfo, int heightScreenInfo, int marge, Set<Coordinate> movesTile) {
@@ -151,10 +152,10 @@ public final class GameControlerSquare {
 	/**
 	 * askCoordinateTile takes player input and makes sure that it is correct, if not, it will wait for the next event until a correct event is given
    * @param context ApplicationContext representing the application being run
-   * @param widthSreenInfo int representing the width of the screen
+   * @param widthScreenInfo int representing the width of the screen
    * @param heightScreenInfo int representing the height of the screen
    * @param marge int representing the size of the rectangle for a tile
-	 * @param movesTile Set<Coordinate> representing the available tile moves
+	 * @param movesTile Set representing the available tile moves
 	 * @return Coordinate representing the player choice
 	 */
 	public static Coordinate askCoordinateTile(ApplicationContext context, int widthScreenInfo, int heightScreenInfo, int marge, Set<Coordinate> movesTile) {
@@ -177,7 +178,7 @@ public final class GameControlerSquare {
 	/**
 	 * choiceDrawPlayer takes player input to determine which tile and wildlife token the player wish to draw
    * @param pe PointerEvent representing the last event given by the player, a mouse action or a keyboard action
-   * @param widthSreenInfo int representing the width of the screen
+   * @param widthScreenInfo int representing the width of the screen
    * @param heightScreenInfo int representing the height of the screen
    * @param marge int representing the size of the rectangle for a tile
 	 * @param draw DrawSquare representing the draw
@@ -206,7 +207,7 @@ public final class GameControlerSquare {
 	/**
 	 * askDraw takes player input and makes sure that it is correct, if not, it will wait for the next event until a correct event is given
    * @param context ApplicationContext representing the application being run
-   * @param widthSreenInfo int representing the width of the screen
+   * @param widthScreenInfo int representing the width of the screen
    * @param heightScreenInfo int representing the height of the screen
    * @param marge int representing the size of the rectangle for a tile
 	 * @param draw DrawSquare representing the draw
@@ -232,7 +233,7 @@ public final class GameControlerSquare {
 	/**
 	 * choiceGame determines if the player clicked on terminal or graphic
    * @param pe PointerEvent representing the last event given by the player, a mouse action or a keyboard action
-   * @param widthSreenInfo int representing the width of the screen
+   * @param widthScreenInfo int representing the width of the screen
    * @param heightScreenInfo int representing the height of the screen
 	 * @return int the player's choice
 	 */
@@ -259,7 +260,7 @@ public final class GameControlerSquare {
 	/**
 	 * askGame makes sure the player input is correct
 	 * @param context ApplicationContext representing the application being run
-   * @param widthSreenInfo int representing the width of the screen
+   * @param widthScreenInfo int representing the width of the screen
    * @param heightScreenInfo int representing the height of the screen
    * @return int the player's choice
 	 */
@@ -282,7 +283,7 @@ public final class GameControlerSquare {
 	/**
 	 * choiceAnimalCard determines if the player clicked on family or intermediate
    * @param pe PointerEvent representing the last event given by the player, a mouse action or a keyboard action
-   * @param widthSreenInfo int representing the width of the screen
+   * @param widthScreenInfo int representing the width of the screen
    * @param heightScreenInfo int representing the height of the screen
    * @return AnimalCard the player's choice
 	 */
@@ -309,7 +310,7 @@ public final class GameControlerSquare {
 	/**
    * askAnimalCard makes sure the player input is correct
    * @param context ApplicationContext representing the application being run
-   * @param widthSreenInfo int representing the width of the screen
+   * @param widthScreenInfo int representing the width of the screen
    * @param heightScreenInfo int representing the height of the screen
    * @return AnimalCard the player's choice
 	 */
@@ -332,7 +333,7 @@ public final class GameControlerSquare {
 	/**
    * choiceTileBegin determines the beginning tile to be given to the player
    * @param pe PointerEvent representing the last event given by the player, a mouse action or a keyboard action
-   * @param widthSreenInfo int representing the width of the screen
+   * @param widthScreenInfo int representing the width of the screen
    * @param heightScreenInfo int representing the height of the screen
 	 * @param forbidenNumber int[] representing the last player choice
 	 * @return int the tile to be given
@@ -362,9 +363,9 @@ public final class GameControlerSquare {
 	/**
    * askTileBegin makes sure the player input is correct
    * @param context ApplicationContext representing the application being run
-   * @param widthSreenInfo int representing the width of the screen
+   * @param widthScreenInfo int representing the width of the screen
    * @param heightScreenInfo int representing the height of the screen
-	 * @param forbidenNumberint[] representing the last player choice
+	 * @param forbidenNumber int[] representing the last player choice
    * @return int the tile to be given
 	 */
 	 public static int askTileBegin(ApplicationContext context, int widthScreenInfo, int heightScreenInfo, int[] forbidenNumber) {

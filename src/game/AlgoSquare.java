@@ -5,17 +5,16 @@ import java.util.Objects;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import com.github.forax.zen.ApplicationContext;
-
 import graphics.GameControlerSquare;
 import graphics.ViewGameSquare;
 import graphics.ViewTerminal;
-/*This class represent the data structure of a Cascadia game with squares for tiles and limited to 2 players
- * player1 is a HashMap representing the number 1 player
- * player2 is a HashMap representing the number 2 player
- * draw is a DrawSquare representing the draw for the players
- * card is the animalCard representing the card used for counting point (either family or intermediary)
+
+/**This class represent the data structure of a Cascadia game with squares for tiles and limited to 2 players
+ *  player1 is a HashMap representing the number 1 player
+ *  player2 is a HashMap representing the number 2 player
+ *  draw is a DrawSquare representing the draw for the players
+ *  card is the animalCard representing the card used for counting point (either family or intermediary)
  */
 public final class AlgoSquare {
 	private final HashMap<Coordinate, TileSquare> player1 = new HashMap<>();
@@ -147,7 +146,7 @@ public final class AlgoSquare {
 	/**
 	 * MakeMove is used to allow the player to play the wildlife token and tile he just drawn
 	 * @param player an int representing which player is playing his turn
-	 * @param picked a Map<TileSquare, WildlifeToken> representing the WildlifeToken and the TileSquare drawn
+	 * @param picked a Map representing the WildlifeToken and the TileSquare drawn
 	 */
 	private void makeMove(int player, Map<TileSquare, WildlifeToken> picked) {
 		var movesTiles = allAvailableTileMove(player);
@@ -217,7 +216,7 @@ public final class AlgoSquare {
    * @param height int representing the height of the screen
 	 * @param marge int representing the size of a box
 	 * @param player int representing the current player
-	 * @param picked Map<TileSquare, WildlifeToken> representing the player choice from the draw
+	 * @param picked Map representing the player choice from the draw
 	 */
 	public void makeMoveGraphic(ApplicationContext context, int width, int height, int marge, int player, Map<TileSquare, WildlifeToken> picked) {
 	  Objects.requireNonNull(context);

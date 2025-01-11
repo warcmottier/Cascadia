@@ -6,9 +6,9 @@ import java.util.Objects;
 
 /**
  * this record the way points are counted for a player
- * player1 is a Map representing the player 1
- * player2 is a Map representing the player 2
- * pointPlayer is an array of int representing the points of the 2 different players
+ * @param player1 is a Map representing the player 1
+ * @param player2 is a Map representing the player 2
+ * @param pointPlayer is an array of int representing the points of the 2 different players
  */
 public record CountPointSquare(Map<Coordinate, TileSquare> player1, Map<Coordinate, TileSquare> player2, int[] pointPlayer) {
 	
@@ -21,6 +21,8 @@ public record CountPointSquare(Map<Coordinate, TileSquare> player1, Map<Coordina
   public CountPointSquare {
 		Objects.requireNonNull(player1);
 		Objects.requireNonNull(player2);
+		player1 = Map.copyOf(player1);
+		player2 = Map.copyOf(player2);
 	}
 	
   /**

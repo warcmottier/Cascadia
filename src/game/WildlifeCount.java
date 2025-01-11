@@ -10,12 +10,13 @@ import java.util.Objects;
 
 /**
  * WildlifeCount holds the counting methods for each card
- * the field card contains the current rules to be applied
+ * @param card is the field card contains the current rules to be applied
  */
 public record WildlifeCount(AnimalCard card) {
   
   /**
    * Select the correct animal or calls the family or intermediate version depending on the game mode
+   * @param player is a Map representing the player board
    * @return int number of points given to the player by this card
    */
   public int countCardScore(Map<Coordinate, TileSquare> player) {
@@ -45,6 +46,7 @@ public record WildlifeCount(AnimalCard card) {
   
   /**
    * Calcul the number of points attributed by the family card
+   * @param player is a Map representing the player board
    * @return int number of points given to the player
    */
   private int cardFamily(Map<Coordinate, TileSquare> player) {
@@ -55,8 +57,8 @@ public record WildlifeCount(AnimalCard card) {
   
   /**
    * groupSizesSquare finds the biggest group of wildlife tokens adjacent to each others
-   * @param player Map<Coordinate, TileSquare> representing the board of a player
-   * @return List<Integer> a list of the sizes of the different groups
+   * @param player Map representing the board of a player
+   * @return List a list of the sizes of the different groups
    */
   private List<Integer> groupSizesSquare(Map<Coordinate, TileSquare> player) {
     Set<Coordinate> visited = new HashSet<>();
@@ -69,8 +71,8 @@ public record WildlifeCount(AnimalCard card) {
   /**
    * isNeighborHaveTokenSquare checks if neighbors of the current cell have a wildlife token on them
    * @param current Coordinate the current cell being checked
-   * @param player Map<Coordinate, TileSquare> representing the board of a player
-   * @param visited Set<Coordinate> representing the cells already checked
+   * @param player Map representing the board of a player
+   * @param visited Set representing the cells already checked
    * @return int the size of a group
    */
   private int isNeighborHaveTokenSquare(Coordinate current, Map<Coordinate, TileSquare> player, Set<Coordinate> visited) {
@@ -104,6 +106,7 @@ public record WildlifeCount(AnimalCard card) {
   
   /**
    * Calculate the number of points attributed by the intermediate card
+   * @param player is a Map representing the player board
    * @return int number of points given to the player
    */
   private int cardMedium(Map<Coordinate, TileSquare> player) {

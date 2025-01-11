@@ -15,6 +15,10 @@ public enum WildlifeToken {
 		this.wildlifeToken = wildlifeToken;
 	}
 	
+  /**
+	 * the getter for the String of WildlifeToken field
+	 * @return the content of the WildlifeToken field
+	 */
 	public String wildlifeToken() {
 		return wildlifeToken;
 	}

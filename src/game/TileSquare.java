@@ -7,9 +7,9 @@ import java.util.Objects;
 
 /**
  * TileSquare represents a Square version of a tile for Cascadia
- * landscape is a field representing the landscape of a tile
- * animalAccepted is a field representing the animals accepted by thiss tile
- * animal is a field representing the current animal on this tile
+ *  landscape is a field representing the landscape of a tile
+ *  animalAccepted is a field representing the animals accepted by thiss tile
+ *  animal is a field representing the current animal on this tile
  */
 public final class TileSquare {
 	private final Landscape landscape;
@@ -18,7 +18,7 @@ public final class TileSquare {
 	
 	/**
 	 * TileSquare, the constructor, checks if animalAccepted and landscape do exist, animal can be null
-	 * @param animalAccepted Set<WildlifeToken> represents the animals accepted by this tile
+	 * @param animalAccepted Set represents the animals accepted by this tile
 	 * @param animal a WildlifeToken representing the current animal on this tile, can be null
 	 * @param landscape a Landscape representing the landscape of a tile
 	 */
@@ -55,18 +55,18 @@ public final class TileSquare {
 	}
 	
 	 /**
-   * the getter for the wildlife field
-   * @return the content of the wildlife field
+   * setWildlifeToken set the wildlife Token on the tile
+   * @param wildlife is a wildlifeToken representing the future wildlife on the tile
    */
-	public void setWildlifeToken(WildlifeToken wildLife) {
-		Objects.requireNonNull(wildLife);
-		animal = wildLife;
+	public void setWildlifeToken(WildlifeToken wildlife) {
+		Objects.requireNonNull(wildlife);
+		animal = wildlife;
 	}
 	
 	/**
 	 * allNeighbour finds every neighbor of a tile
 	 * @param currentTiles the Coordinate of the tile being checked
-	 * @return Set<Coordinate> the neighbors of the tile
+	 * @return Set the neighbors of the tile
 	 */
 	private static Set<Coordinate> allNeighbour(Coordinate currentTiles) {
 		Set<Coordinate> coordinate = Set.of(new Coordinate(currentTiles.x() + 1, currentTiles.y()),
@@ -79,7 +79,8 @@ public final class TileSquare {
 	 /**
    * notneighbour finds every empty neighbor of a tile
    * @param currentTiles the Coordinate of the tile being checked
-   * @return Set<Coordinate> the empty spots of the tile
+   * @param tilesMap is a Map representing the player map
+   * @return Set the empty spots of the tile
    */
 	public static Set<Coordinate> notneighbour(Coordinate currentTiles, Map<Coordinate, TileSquare> tilesMap) {
 		Objects.requireNonNull(currentTiles);

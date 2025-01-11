@@ -31,6 +31,10 @@ public enum AnimalCard {
 		this.pointAnimal = pointAnimal;
 	}
   
+  /**
+	 * the getter for the string of pointAnimal field
+	 * @return the content of the pointAnimal field
+	 */
   public String pointAnimal() {
   	return pointAnimal;
   }

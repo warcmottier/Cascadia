@@ -73,13 +73,13 @@ public final class ViewTerminal {
 
   /**
    * printHead prints everything the player needs to choose from the draw, including the player board
-   * @param player HashMap<Coordinate, TileSquare> representing the player's board
+   * @param player Map representing the player's board
    * @param card AnimalCard representing the current card used
    * @param draw DrawSquare representing the draw
    * @param currentPlayer int representing the player currently playing its turn
    * @return an int representing the player input
    */
-  public static int printHead(HashMap<Coordinate, TileSquare> player, AnimalCard card, DrawSquare draw, int currentPlayer) {
+  public static int printHead(Map<Coordinate, TileSquare> player, AnimalCard card, DrawSquare draw, int currentPlayer) {
     Objects.requireNonNull(player);
     Objects.requireNonNull(card);
     Objects.requireNonNull(draw);
@@ -154,10 +154,10 @@ public final class ViewTerminal {
   
   /**
    * getMinandMaxCoordinate gets the most left tile, the most right tile, the most up tile, and the most down tile coordinates
-   * @param player HashMap<Coordinate, TileSquare> representing the player board
+   * @param player Map representing the player board
    * @param coordinate int[] representing the four extreme values
    */
-  private static void getMinAndMaxCoordinate(HashMap<Coordinate, TileSquare> player, int[] coordinate) {
+  private static void getMinAndMaxCoordinate(Map<Coordinate, TileSquare> player, int[] coordinate) {
     System.out.println(player);
     var maxX = player.keySet().stream().mapToInt(Coordinate::x).max();
     var minX = player.keySet().stream().mapToInt(Coordinate::x).min();
@@ -213,7 +213,7 @@ public final class ViewTerminal {
   
   /**
    * printLandscape prints the landscape of a tile
-   * @param player Map<Coordinate, TileSquare> represent the player board
+   * @param player Map represent the player board
    * @param u int represent the line inside a cell
    * @param currentCoordinate Coordinate the coordinates of the tiles currently being printed
    * @param cellWidth int representing the width of a cell
@@ -235,7 +235,7 @@ public final class ViewTerminal {
   
   /**
    * printWildlifeToken prints the wildlifeToken currently on the cell (if this function is called, there is one)
-   * @param player Map<Coordinate, TileSquare> represent the player board
+   * @param player Map represent the player board
    * @param currentCoordinate Coordinate the coordinates of the tiles currently being printed
    * @param cellWidth int representing the width of a cell
    * @return String to append to a StringBuilder or syso
@@ -254,7 +254,7 @@ public final class ViewTerminal {
   
   /**
    * printAnimalAccepted prints the animals accepted on the cell (if this function is called, there is no wildlife token currently on the cell)
-   * @param player Map<Coordinate, TileSquare> represent the player board
+   * @param player Map represent the player board
    * @param currentCoordinate Coordinate the coordinates of the tiles currently being printed
    * @param cellWidth int representing the width of a cell
    * @return String to append to a StringBuilder or syso
@@ -280,7 +280,7 @@ public final class ViewTerminal {
   
   /**
    * printAnimal prints the animals accepted or the wildlife token depending on the content of the cell
-   * @param player Map<Coordinate, TileSquare> represent the player board
+   * @param player Map represent the player board
    * @param currentCoordinate Coordinate the coordinates of the tiles currently being printed
    * @param cellWidth int representing the width of a cell
    * @param u int representing the line number
@@ -301,7 +301,7 @@ public final class ViewTerminal {
   
   /**
    * printCellContent prints the content of a cell
-   * @param player Map<Coordinate, TileSquare> represent the player board
+   * @param player Map represent the player board
    * @param currentCoordinate Coordinate the coordinates of the tiles currently being printed
    * @param cellWidth int representing the width of a cell
    * @param u int representing the line number
@@ -318,7 +318,7 @@ public final class ViewTerminal {
   
   /**
    * printRow prints a row of the player board
-   * @param player Map<Coordinate, TileSquare> represent the player board
+   * @param player Map represent the player board
    * @param minY the up most coordinate
    * @param maxY the down most coordinate
    * @param i int representing the row number
@@ -343,7 +343,7 @@ public final class ViewTerminal {
   
   /**
    * printPlayer prints the player board
-   * @param player Map<Coordinate, TileSquare> represent the player board
+   * @param player Map represent the player board
    * @param minX the left most coordinate
    * @param maxX the right most coordinate
    * @param minY the up most coordinate
@@ -418,7 +418,7 @@ public final class ViewTerminal {
 
   /**
    * choiceMoveTileOrWildelife prints the available tile or wildlife moves
-   * @param moves Set<Coordinate> representing all the moves available
+   * @param moves Set representing all the moves available
    * @param tileOrNot boolean representing if it's a tile or a wildlife token move
    * @return int representing the player input
    */

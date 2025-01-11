@@ -27,7 +27,7 @@ public final class ViewGameSquare {
    * colorTile draw a tile with the correct color according to it's landscape and prints it on the tile
    * @param graphics Graphics2D representing the current window
    * @param coordinate Coordinate representing the coordinates of the tile being drawn
-   * @param widthSreen int representing the width of the screen
+   * @param widthScreen int representing the width of the screen
    * @param heightScreen int representing the height of the screen
    * @param marge int representing the size of the rectangle for a tile
    * @param color Color representing the color given to this tile
@@ -45,7 +45,7 @@ public final class ViewGameSquare {
 	 * @param wildlife WildlifeToken representing the wildlife token on the cell (null if there is none)
 	 * @param graphics Graphics2D representing the current window
 	 * @param coordinate Coordinate representing the coordinates of the tile being drawn
-	 * @param widthSreen int representing the width of the screen
+	 * @param widthScreen int representing the width of the screen
 	 * @param heightScreen int representing the height of the screen
 	 * @param marge int representing the size of the rectangle for a tile
 	 */
@@ -58,10 +58,10 @@ public final class ViewGameSquare {
 	
 	/**
 	 * drawAnimalAccepted draws the animals accepted by a tile
-	 * @param animalAccepted Set<WildlifeToken> representing the animals accepted by this tile
+	 * @param animalAccepted Set representing the animals accepted by this tile
    * @param graphics Graphics2D representing the current window
    * @param coordinate Coordinate representing the coordinates of the tile being drawn
-   * @param widthSreen int representing the width of the screen
+   * @param widthScreen int representing the width of the screen
    * @param heightScreen int representing the height of the screen
    * @param marge int representing the size of the rectangle for a tile
 	 */
@@ -76,7 +76,7 @@ public final class ViewGameSquare {
    * @param graphics Graphics2D representing the current window
    * @param coordinate Coordinate representing the coordinates of the tile being drawn
    * @param tile TileSquare representing the tile being drawn
-   * @param widthSreen int representing the width of the screen
+   * @param widthScreen int representing the width of the screen
    * @param heightScreen int representing the height of the screen
    * @param marge int representing the size of the rectangle for a tile
 	 */
@@ -95,9 +95,9 @@ public final class ViewGameSquare {
 	/**
 	 * drawPlayer draws the board of a player
 	 * @param context ApplicationContext representing the application being run
-	 * @param playerBoard Map<Coordinate, TileSquare> representing the board of a player
+	 * @param playerBoard Map representing the board of a player
 	 * @param marge int representing the size of the rectangle for a tile
-   * @param widthSreen int representing the width of the screen
+   * @param widthScreen int representing the width of the screen
    * @param heightScreen int representing the height of the screen
 	 */
 	public static void drawPlayer(ApplicationContext context, Map<Coordinate, TileSquare> playerBoard, int marge, int widthScreen, int heightScreen) {
@@ -111,7 +111,7 @@ public final class ViewGameSquare {
 	 * @param graphics Graphics2D representing the current window
 	 * @param wildlife WildlifeToken representing the wildlife token currently being printed
    * @param marge int representing the size of the rectangle for a tile
-   * @param widthSreen int representing the width of the screen
+   * @param widthScreen int representing the width of the screen
    * @param heightScreen int representing the height of the screen
 	 * @param x int representing the coordinate of the tile in the draw
 	 * @param y int representing the coordinate of the tile in the draw
@@ -126,7 +126,7 @@ public final class ViewGameSquare {
 	 * @param draw DrawSquare representing the draw
 	 * @param context ApplicationContext representing the application being run
    * @param marge int representing the size of the rectangle for a tile
-   * @param widthSreen int representing the width of the screen
+   * @param widthScreen int representing the width of the screen
    * @param heightScreen int representing the height of the screen
 	 */
 	private static void drawDraw(DrawSquare draw, ApplicationContext context, int marge, int widthScreen, int heightScreen) {
@@ -141,7 +141,7 @@ public final class ViewGameSquare {
 	/**
 	 * drawText draws the text representing the rules of an animalCard
 	 * @param graphics Graphics2D representing the current window
-   * @param widthSreenInfo int representing the width of the screen
+   * @param widthScreenInfo int representing the width of the screen
    * @param heightScreenInfo int representing the height of the screen
 	 * @param card AnimalCard representing the current card
 	 */
@@ -158,7 +158,7 @@ public final class ViewGameSquare {
 	 * drawAnimalCard draws an animal card
 	 * @param card AnimalCard representing the current card
 	 * @param context ApplicationContext representing the application being run
-   * @param widthSreenInfo int representing the width of the screen
+   * @param widthScreenInfo int representing the width of the screen
    * @param heightScreenInfo int representing the height of the screen
 	 */
 	private static void drawAnimalCard(AnimalCard card, ApplicationContext context, int widthScreenInfo, int heightScreenInfo) {
@@ -168,7 +168,7 @@ public final class ViewGameSquare {
 	/**
 	 * drawBox draws the boxes to answer when asked if an over population should be run
 	 * @param graphics Graphics2D representing the current window
-   * @param widthSreenInfo int representing the width of the screen
+   * @param widthScreenInfo int representing the width of the screen
    * @param heightScreenInfo int representing the height of the screen
 	 * @param sentence String representing the sentence to be printed
 	 */
@@ -182,7 +182,7 @@ public final class ViewGameSquare {
 	/**
 	 * drawOverPopulation draws the necessary tools for the player to interact in case of an overpopulation
 	 * @param context ApplicationContext representing the application being run
-   * @param widthSreenInfo int representing the width of the screen
+   * @param widthScreenInfo int representing the width of the screen
    * @param heightScreenInfo int representing the height of the screen
 	 */
 	public static int drawOverPopulation(DrawSquare draw ,ApplicationContext context, int widthScreenInfo, int heightScreenInfo) {
@@ -204,9 +204,9 @@ public final class ViewGameSquare {
 	
 	/**
 	 * drawMoves draws the available tile moves
-	 * @param tileMoves Set<Coordinate> representing the available moves
+	 * @param tileMoves Set representing the available moves
    * @param context ApplicationContext representing the application being run
-   * @param widthSreenInfo int representing the width of the screen
+   * @param widthScreenInfo int representing the width of the screen
    * @param heightScreenInfo int representing the height of the screen
    * @param marge int representing the size of the rectangle for a tile
 	 */
@@ -225,7 +225,7 @@ public final class ViewGameSquare {
 	/**
 	 * menu prints the menu to know if the player wants to play the terminal or graphic version of Cascadia
    * @param context ApplicationContext representing the application being run
-   * @param widthSreenInfo int representing the width of the screen
+   * @param widthScreenInfo int representing the width of the screen
    * @param heightScreenInfo int representing the height of the screen
 	 * @return int the player's choice
 	 */
@@ -242,16 +242,16 @@ public final class ViewGameSquare {
 	/**
 	 * drawHead draws the necessary for a player to play his turn
    * @param context ApplicationContext representing the application being run
-   * @param widthSreenInfo int representing the width of the screen
+   * @param widthScreenInfo int representing the width of the screen
    * @param heightScreenInfo int representing the height of the screen
-	 * @param player HashMap<Coordinate, TileSquare> representing the player board
+	 * @param player Map representing the player board
 	 * @param card AnimalCard representing the current card being used
 	 * @param draw DrawSquare representing the draw
 	 * @param currentPlayer int representing the current player
 	 * @param marge int representing the size of a cell
 	 * @return int representing the player's choice
 	 */
-	public static int drawHead(ApplicationContext context, int widthScreenInfo, int heightScreenInfo, HashMap<Coordinate, TileSquare> player, AnimalCard card, DrawSquare draw, int currentPlayer, int marge) {
+	public static int drawHead(ApplicationContext context, int widthScreenInfo, int heightScreenInfo, Map<Coordinate, TileSquare> player, AnimalCard card, DrawSquare draw, int currentPlayer, int marge) {
 	  Objects.requireNonNull(context);
 	  Objects.requireNonNull(player);
 	  Objects.requireNonNull(card);
@@ -272,10 +272,10 @@ public final class ViewGameSquare {
 	/**
 	 * drawWinner prints the winner of the game and the number of points
    * @param context ApplicationContext representing the application being run
-   * @param widthSreen int representing the width of the screen
+   * @param widthScreen int representing the width of the screen
    * @param heightScreen int representing the height of the screen
-	 * @param player1 Map<Coordinate, TileSquare> representing the first player
-	 * @param player2 Map<Coordinate, TileSquare> representing the second player
+	 * @param player1 Map representing the first player
+	 * @param player2 Map representing the second player
 	 * @param card AnimalCard representing the current card being used
 	 */
 	public static void drawWinner(ApplicationContext context, int widthScreen, int heightScreen ,Map<Coordinate, TileSquare> player1, Map<Coordinate, TileSquare> player2, AnimalCard card) {
@@ -305,7 +305,7 @@ public final class ViewGameSquare {
 	/**
 	 * drawAskAnimalCard prints the choice between the family and intermediate version
    * @param context ApplicationContext representing the application being run
-   * @param widthSreen int representing the width of the screen
+   * @param widthScreen int representing the width of the screen
    * @param heightScreen int representing the height of the screen
 	 * @return AnimalCard the chosen card
 	 */
@@ -323,7 +323,7 @@ public final class ViewGameSquare {
 	/**
 	 * drawAskTileBegin prints the menu to randomly pick a beginning tile, randomly from the eyes of the player
    * @param context ApplicationContext representing the application being run
-   * @param widthSreen int representing the width of the screen
+   * @param widthScreen int representing the width of the screen
    * @param heightScreen int representing the height of the screen
 	 * @param forbidenNumber int[] representing the last player choice
 	 * @return int the player's choice

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Cascadia" default="all" basedir=".">
+    <!-- Properties -->
+    <property name="src.dir" value="src"/>
+    <property name="build.dir" value="classes"/>
+    <property name="lib.dir" value="lib"/>
+    <property name="dist.dir" value="."/>
+    <property name="javadoc.dir" value="docs/doc"/>
+    <property name="main.class" value="Main"/>
+
+    <!-- Clean -->
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+        <delete file="${dist.dir}/Cascadia.jar"/>
+        <delete dir="${javadoc.dir}"/>
+        <echo message="Project cleaned."/>
+    </target>
+
+    <!-- Compilation -->
+    <target name="compile">
+        <mkdir dir="${build.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="false">
+            <classpath>
+                <fileset dir="${lib.dir}" includes="*.jar"/>
+            </classpath>
+            <compilerarg line="--release 23"/>
+        </javac>
+        <echo message="Sources compiled to ${build.dir}."/>
+    </target>
+
+    <!-- Generate Javadoc -->
+    <target name="javadoc" depends="compile">
+        <mkdir dir="${javadoc.dir}"/>
+        <javadoc sourcepath="${src.dir}" destdir="${javadoc.dir}" classpath="${lib.dir}/zen-6.0.jar" failonerror="true">
+            <arg line="--source 23"/>
+            <arg line="-quiet"/> <!-- Added option to ignore warnings -->
+            <arg line="-Xdoclint:none"/> <!-- Disable all Javadoc lint checks -->
+            <tag name="author" description="Author of the class" enabled="yes"/>
+            <tag name="version" description="Version of the class" enabled="yes"/>
+            <tag name="since" description="When this class was introduced" enabled="yes"/>
+        </javadoc>
+        <echo message="Javadoc generated in ${javadoc.dir}."/>
+    </target>
+
+    <!-- Create Executable JAR -->
+    <target name="jar" depends="compile">
+        <jar destfile="./Cascadia.jar" basedir="${build.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="${main.class}"/>
+                <attribute name="Class-Path" value="lib/zen-6.0.jar"/>
+            </manifest>
+        </jar>
+        <echo message="JAR file created: ./Cascadia.jar"/>
+    </target>
+
+    <!-- 'all' target to do everything -->
+    <target name="all" depends="clean, compile, javadoc, jar">
+        <echo message="Build complete: clean, compile, JAR, and Javadoc done."/>
+    </target>
+</project>
