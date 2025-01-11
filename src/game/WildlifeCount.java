@@ -34,7 +34,7 @@ public record WildlifeCount(AnimalCard card) {
    */
   private static int sizeToScoreFamily(int size) {
     if(size <= 0) {
-      throw new IllegalArgumentException("Un groupe d'animaux sans animaux, c'est problématique");
+      throw new IllegalArgumentException();
     }
     return switch(size) {
       case 1 -> 2;
@@ -77,9 +77,9 @@ public record WildlifeCount(AnimalCard card) {
     visited.add(current);
     var coordinates = TileSquare.neighbour(current, player);
     var size = 1;
-    for(var coordinate : coordinates) { //Hello, Darkness my old friend...
-      if(player.get(coordinate).animal() != null && !visited.contains(coordinate)) { //Si c'est pas un endroit vide et qu'il y a un animal et qu'on l'as pas déjà vus
-        size += isNeighborHaveTokenSquare(coordinate, player, visited); //On regarde du coup les voisins de celui-là
+    for(var coordinate : coordinates) {
+      if(player.get(coordinate).animal() != null && !visited.contains(coordinate)) { 
+        size += isNeighborHaveTokenSquare(coordinate, player, visited); 
       }
     }
     return size;

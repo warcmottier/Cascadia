@@ -30,13 +30,13 @@ public record LandscapeCountSquare(Map<Coordinate, TileSquare> player) {
    * @param landscape a Landscape representing the landscape we are searching for
    * @param size an int representing the size of the current group
    */
-  private void isNeighborHaveLandscape(Coordinate current, Set<Coordinate> visited, Landscape landscape, int[] size) {  //Hello, Darkness my old friend...
+  private void isNeighborHaveLandscape(Coordinate current, Set<Coordinate> visited, Landscape landscape, int[] size) {
     visited.add(current);
     if(player.get(current).landscape() == landscape) {
     	size[0]++;
     }
     var coordinates = TileSquare.neighbour(current, player);
-    for(var coordinate : coordinates) { //Hello, Darkness my old friend...
+    for(var coordinate : coordinates) {
       if(player.get(coordinate).landscape() == landscape && !visited.contains(coordinate)) { 
       	isNeighborHaveLandscape(coordinate, visited, landscape, size); 
       }

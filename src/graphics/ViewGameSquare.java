@@ -228,6 +228,13 @@ public final class ViewGameSquare {
 		return GameControlerSquare.askCoordinateTile(context, widthScreenInfo, heightScreenInfo, marge, tileMoves);
 	}
 	
+	/**
+	 * menu prints the menu to know if the player wants to play the terminal or graphic version of Cascadia
+   * @param context ApplicationContext representing the application being run
+   * @param widthSreenInfo int representing the width of the screen
+   * @param heightScreenInfo int representing the height of the screen
+	 * @return int the player's choice
+	 */
 	public static int menu(ApplicationContext context, int widthScreenInfo, int heightScreenInfo) {
 	   context.renderFrame(graphics -> {
 	      graphics.setColor(Color.WHITE);
@@ -238,6 +245,18 @@ public final class ViewGameSquare {
 	  return GameControlerSquare.askGame(context, widthScreenInfo, heightScreenInfo);
 	}
 	
+	/**
+	 * drawHead draws the necessary for a player to play his turn
+   * @param context ApplicationContext representing the application being run
+   * @param widthSreenInfo int representing the width of the screen
+   * @param heightScreenInfo int representing the height of the screen
+	 * @param player HashMap<Coordinate, TileSquare> representing the player board
+	 * @param card AnimalCard representing the current card being used
+	 * @param draw DrawSquare representing the draw
+	 * @param currentPlayer int representing the current player
+	 * @param marge int representing the size of a cell
+	 * @return int representing the player's choice
+	 */
 	public static int drawHead(ApplicationContext context, int widthScreenInfo, int heightScreenInfo, HashMap<Coordinate, TileSquare> player, AnimalCard card, DrawSquare draw, int currentPlayer, int marge) {
     context.renderFrame(graphics -> {
       graphics.setColor(Color.BLACK);
@@ -252,6 +271,15 @@ public final class ViewGameSquare {
 	  return GameControlerSquare.askDraw(context, widthScreenInfo, heightScreenInfo, marge, draw);
 	}
 	
+	/**
+	 * drawWinner prints the winner of the game and the number of points
+   * @param context ApplicationContext representing the application being run
+   * @param widthSreen int representing the width of the screen
+   * @param heightScreen int representing the height of the screen
+	 * @param player1 Map<Coordinate, TileSquare> representing the first player
+	 * @param player2 Map<Coordinate, TileSquare> representing the second player
+	 * @param card AnimalCard representing the current card being used
+	 */
 	public static void drawWinner(ApplicationContext context, int widthScreen, int heightScreen ,Map<Coordinate, TileSquare> player1, Map<Coordinate, TileSquare> player2, AnimalCard card) {
 	  var point = new CountPointSquare(player1, player2);
 	   context.renderFrame(graphics -> {
@@ -272,6 +300,13 @@ public final class ViewGameSquare {
 	   }
 	}
 	
+	/**
+	 * drawAskAnimalCard prints the choice between the family and intermediate version
+   * @param context ApplicationContext representing the application being run
+   * @param widthSreen int representing the width of the screen
+   * @param heightScreen int representing the height of the screen
+	 * @return AnimalCard the chosen card
+	 */
 	public static AnimalCard drawAskAnimalCard(ApplicationContext context, int widthScreen, int heightScreen) {
     context.renderFrame(graphics -> {
       graphics.setColor(Color.WHITE);
@@ -282,6 +317,14 @@ public final class ViewGameSquare {
     return GameControlerSquare.askAnimalCard(context, widthScreen, heightScreen);
 	}
 	
+	/**
+	 * drawAskTileBegin prints the menu to randomly pick a beginning tile, randomly from the eyes of the player
+   * @param context ApplicationContext representing the application being run
+   * @param widthSreen int representing the width of the screen
+   * @param heightScreen int representing the height of the screen
+	 * @param forbidenNumber int[] representing the last player choice
+	 * @return int the player's choice
+	 */
 	public static int drawAskTileBegin(ApplicationContext context, int widthScreen, int heightScreen, int[] forbidenNumber) {
     context.renderFrame(graphics -> {
       graphics.setColor(Color.BLACK);
@@ -299,6 +342,10 @@ public final class ViewGameSquare {
     return GameControlerSquare.askTileBegin(context, widthScreen, heightScreen, forbidenNumber);
 	}
 	
+	/**
+	 * launchGame launches the game in terminal or graphic version
+	 * @param context ApplicationContext representing the application being run
+	 */
 	public static void launchGame(ApplicationContext context) {
 	  AlgoSquare game;
 	  var width = context.getScreenInfo().width();

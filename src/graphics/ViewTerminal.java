@@ -26,6 +26,29 @@ public final class ViewTerminal {
   }
   
   /**
+   * checkInputDraw checks the input value for the draw
+   * @param console Console representing the terminal
+   * @param input int representing the player input
+   * @return int the player input
+   */
+  private static int checkInputDraw(Console console, int input) {
+    for(;;) {
+      String inputString = console.readLine();
+      try {
+          input = Integer.parseInt(inputString);
+          if (input >= 1 && input <= 4) {
+              return input;
+          }
+          else { 
+            System.out.println("Wrong input, enter a number between 1 and 4.");
+            }
+      } catch (NumberFormatException e) { 
+        System.out.println("Invalid input, please enter a valid number between 1 and 4.");
+        }
+      }
+  }
+  
+  /**
    * readPlayerInputDraw takes the player input to determine which tile and wildlifeToken the current player wish to draw
    * @return an int representing the player input
    */
@@ -35,26 +58,14 @@ public final class ViewTerminal {
     if (console == null) {
         System.out.println("Console is unavailable. Please run this program in a terminal.");
         System.exit(1);
-    }
-    try {               //Makes sure no wrong input causes the application to terminate with an error
-        for(;;) {
-            String inputString = console.readLine();
-            try {
-                input = Integer.parseInt(inputString);
-                if (input >= 1 && input <= 4) {
-                    break;
-                } else {
-                    System.out.println("Wrong input, enter a number between 1 and 4.");
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input, please enter a valid number between 1 and 4.");
-            }
         }
+    try {               //Makes sure no wrong input causes the application to terminate with an error
+        input = checkInputDraw(console, input);
     } catch (Exception e) {
         System.out.println("An error occurred while reading input.");
         e.printStackTrace();
         System.exit(1);
-    }
+      }
     return input;
   }
 
@@ -81,35 +92,43 @@ public final class ViewTerminal {
   }
 
   /**
+   * checkInputOverpopulation checks the input value for the Overpopulation
+   * @param console Console representing the terminal
+   * @param input String representing the player input
+   * @return boolean the player's choice
+   */
+  private static boolean checkInputOverpopulation(Console console, String input) {
+    for(;;) {
+      input = console.readLine().trim().toLowerCase();
+      if (input.equals("yes")) {
+          return true;  
+      } else if (input.equals("no")) {
+          return false; 
+      } else { 
+        System.out.println("Wrong input, enter yes or no");
+        }
+      }
+  }
+  
+  /**
    * readPlayerInputOverpopulation takes the player input to determines if they wish to run an overpopulation or not according to the rules of Cascadia
    * @return a boolean representing the player input, true means yes, false means no
    */
   private static boolean readPlayerInputOverpopulation() {
-    String input;
+    String input = null;
     boolean value = false;
     Console console = System.console();
     if (console == null) {
         System.out.println("Console is unavailable. Please run this program in a terminal.");
         System.exit(1);
-    }
-    try {
-    	for(;;) {
-            input = console.readLine().trim().toLowerCase();
-            if (input.equals("yes")) {
-                value = true;
-                break;
-            } else if (input.equals("no")) {
-                value = false;
-                break;
-            } else {
-                System.out.println("Wrong input, enter yes or no");
-            }
         }
+    try {
+        value = checkInputOverpopulation(console, input);
     } catch (Exception e) {
         System.out.println("An error occurred while reading input.");
         e.printStackTrace();
         System.exit(1);
-    }
+        }
     return value;
   }
 
@@ -290,6 +309,31 @@ public final class ViewTerminal {
   }
   
   /**
+   * printRow prints a row of the player board
+   * @param player Map<Coordinate, TileSquare> represent the player board
+   * @param minY the up most coordinate
+   * @param maxY the down most coordinate
+   * @param i int representing the row number
+   * @param cellWidth int representing the width of a cell
+   * @return String a row of the board
+   */
+  private static String printRow(Map<Coordinate, TileSquare> player, int minY, int maxY, int i, int cellWidth) {
+    var playerBoard = new StringBuilder(); 
+    for(int u = 0; u < 3; u++) {
+      playerBoard.append(printYcooordinate(u, i));
+      for(int j = minY; j < maxY + 1; j++) {
+        var currentCoordinate = new Coordinate(j, i);
+        playerBoard.append(printCellContent(player, currentCoordinate, cellWidth, u));
+        if(u == 2 || player.get(currentCoordinate) == null) {
+        playerBoard.append("              |");
+        }
+        }
+      playerBoard.append("\n");
+      }
+    return playerBoard.toString();
+  }
+  
+  /**
    * printPlayer prints the player board
    * @param player Map<Coordinate, TileSquare> represent the player board
    * @param minX the left most coordinate
@@ -298,32 +342,45 @@ public final class ViewTerminal {
    * @param maxY the down most coordinate
    */
   private static void printPlayer(Map<Coordinate, TileSquare> player, int minX, int maxX, int minY, int maxY) {
-    var playerBoard = new StringBuilder();
+    var playerBoard = new StringBuilder(); 
     var cellWidth = 15;
     playerBoard.append(printXcoordinate(minY, maxY));
     for(int w = minY; w < maxY + 1; w++) {
       playerBoard.append("_______________");
-    }
+      }
     playerBoard.append("\n");
     for(int i = minX; i <= maxX; i++) {
-      for(int u = 0; u < 3; u++) {
-        playerBoard.append(printYcooordinate(u, i));
-        for(int j = minY; j < maxY + 1; j++) {
-          var currentCoordinate = new Coordinate(j, i);
-          playerBoard.append(printCellContent(player, currentCoordinate, cellWidth, u));
-          if(u == 2 || player.get(currentCoordinate) == null) {
-          playerBoard.append("              |");
-          }
-        }
-        playerBoard.append("\n");
-      }
+      playerBoard.append(printRow(player, minY, maxY, i, cellWidth));
       playerBoard.append("     ");
       for(int j = minY; j <= maxY; j++) {
         playerBoard.append("_______________");
-      }
+        }
       playerBoard.append("\n");
-    }
+      }
     System.out.println(playerBoard.toString());
+  }
+  
+  /**
+   * checkInputMoveTilesOrWildlife checks the input value to make a move
+   * @param console Console representing the terminal
+   * @param input int representing the player input
+   * @param size int size of the available moves set
+   * @return int the player input
+   */
+  private static int checkInputMoveTilesOrWildlife(Console console, int input, int size) {
+    for(;;) {
+      String inputLine = console.readLine();
+      try {
+          input = Integer.parseInt(inputLine.trim());
+          if (input >= 1 && input <= size) { 
+            return input; 
+          } else { 
+            System.out.println("Wrong input, enter a number between 1 and " + size + ".");
+            }
+      } catch (NumberFormatException e) {
+          System.out.println("Invalid input, please enter a valid number between 1 and " + size + ".");
+          }
+      }
   }
   
   /**
@@ -337,26 +394,14 @@ public final class ViewTerminal {
     if (console == null) {
         System.out.println("Console is unavailable. Please run this program in a terminal.");
         System.exit(1);
-    }
-    try {
-        for(;;) {
-            String inputLine = console.readLine();
-            try {
-                input = Integer.parseInt(inputLine.trim());
-                if (input >= 1 && input <= size) {
-                    break; 
-                } else {
-                    System.out.println("Wrong input, enter a number between 1 and " + size + ".");
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input, please enter a valid number between 1 and " + size + ".");
-            }
         }
+    try {
+      input = checkInputMoveTilesOrWildlife(console, input, size);
     } catch (Exception e) {
         System.out.println("An error occurred while reading input.");
         e.printStackTrace();
         System.exit(1);
-    }
+        }
     return input;
   }
 
@@ -394,34 +439,43 @@ public final class ViewTerminal {
   }
   
   /**
+   * checkInputOverpopulation checks the input value for the Overpopulation
+   * @param console Console representing the terminal
+   * @param input String representing the player input
+   * @return boolean the player's choice
+   */
+  private static boolean checkInputAnimal(Console console, String input) {
+    for(;;) {
+      input = console.readLine().trim().toLowerCase();
+      if (input.equals("family")) {
+          return true;  
+      } else if (input.equals("intermediary")) {
+          return false; 
+      } else { 
+        System.out.println("Wrong input, enter 'family' or 'intermediary'.");
+        }
+      }
+  }
+  
+  /**
    * readPlayerInputAnimal takes the player input to choose to play with the family or the intermediary version of the game
    * @return boolean representing if the game will be played in family or intermediary mode
    */
   private static boolean readPlayerInputAnimal() {
     boolean value = false;
+    String input = null;
     Console console = System.console();
     if (console == null) {
         System.out.println("Console is unavailable. Please run this program in a terminal.");
         System.exit(1);
-    }
-    try {
-        for(;;) {
-            String input = console.readLine().trim().toLowerCase();
-            if (input.equals("family")) {
-                value = true;
-                break;
-            } else if (input.equals("intermediary")) {
-                value = false;
-                break;
-            } else {
-                System.out.println("Wrong input, enter 'family' or 'intermediary'.");
-            }
         }
+    try {
+      value = checkInputAnimal(console, input);
     } catch (Exception e) {
         System.out.println("An error occurred while reading input.");
         e.printStackTrace();
         System.exit(1);
-    }
+        }
     return value;
   }
   
@@ -460,9 +514,7 @@ public final class ViewTerminal {
                 System.out.println("Wrong input, enter a number between 1 and 5 or don't take the same tile as the previous player.");
             }
         } catch (NumberFormatException e) {
-            System.out.println("Invalid input, please enter a valid number.");
-        }
-    }
+            System.out.println("Invalid input, please enter a valid number.");}}
     return input;
  }
 

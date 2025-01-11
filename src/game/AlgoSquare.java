@@ -65,6 +65,10 @@ public final class AlgoSquare {
 	
 	/**
 	 * initializedGame makes an AlgoSquare in the state to begin a Cascadia square game
+	 * @param graphic boolean representing if the game is in graphic or terminal version
+	 * @param context ApplicationContext representing the application being run
+   * @param width int representing the width of the screen
+   * @param height int representing the height of the screen
 	 * @return an AlgoSquare Object
 	 */
 	public static AlgoSquare initializedGame(boolean graphic, int width, int height, ApplicationContext context) {
@@ -168,7 +172,27 @@ public final class AlgoSquare {
 	}
 
 	/**
-	 * game is the main function controlling the progress of the game
+	 * overpopulationMenu decides if the overpopulation option should be given to the player
+	 * @param input int representing the necessity to run an overpopulation or give the ability to ask for one to the player
+	 */
+	private void overpopulationMenuTerminal(int input) {
+    for(; input == 3 || input == 4; input = draw.isOverpopulation()) {
+      if(input == 4) {
+        draw.overpopulation(4);
+      }
+      else if(input == 3) {
+        if(ViewTerminal.askOverpopulation(draw)) {
+          draw.overpopulation(3);
+        }
+        else {
+          break;
+        }
+      }
+    }
+	}
+	
+	/**
+	 * gameTerminal is the main function controlling the progress of the game
 	 */
 	public void gameTerminal() {
 		var input = 0;
@@ -176,19 +200,7 @@ public final class AlgoSquare {
 		Map<TileSquare, WildlifeToken> picked = new HashMap<>();
 		for(var i = 0; i < 40; i++) { // the game starts here
 			input = draw.isOverpopulation();
-			for(; input == 3 || input == 4; input = draw.isOverpopulation()) {
-				if(input == 4) {
-					draw.overpopulation(4);
-				}
-				else if(input == 3) {
-					if(ViewTerminal.askOverpopulation(draw)) {
-						draw.overpopulation(3);
-					}
-					else {
-						break;
-					}
-				}
-			}
+			overpopulationMenuTerminal(input);
 			input = (currentPlayer == 1) ? ViewTerminal.printHead(player1, card, draw, currentPlayer) : ViewTerminal.printHead(player2, card, draw, currentPlayer);
 			picked = draw.pickDraw(input);
 			makeMove(currentPlayer, picked);
@@ -197,6 +209,15 @@ public final class AlgoSquare {
 		winner();
 	}
 	
+	/**
+	 * makeMoveGraphic allows the player to make his move in the graphic version of Cascadia
+   * @param context ApplicationContext representing the application being run
+   * @param width int representing the width of the screen
+   * @param height int representing the height of the screen
+	 * @param marge int representing the size of a box
+	 * @param player int representing the current player
+	 * @param picked Map<TileSquare, WildlifeToken> representing the player choice from the draw
+	 */
 	public void makeMoveGraphic(ApplicationContext context,int width, int height, int marge, int player, Map<TileSquare, WildlifeToken> picked) {
 	  var movesTiles = allAvailableTileMove(player);
 	  var movesWildlife = allAvailableWildlifeMove(player, picked.values().iterator().next());
@@ -216,6 +237,35 @@ public final class AlgoSquare {
 	  makeWildlifeMove(1, coordinates,picked.values().iterator().next(), player);
 	}
 	
+	/**
+	 * overpopulationMenuGraphic decides if the overpopulation option should be given to the player
+   * @param input int representing the necessity to run an overpopulation or give the ability to ask for one to the player
+   * @param context ApplicationContext representing the application being run
+   * @param width int representing the width of the screen
+   * @param height int representing the height of the screen
+	 */
+	private void overpopulationMenuGraphic(int input, ApplicationContext context,int width, int height) {
+    for(; input == 3 || input == 4; input = draw.isOverpopulation()) {
+      if(input == 4) {
+        draw.overpopulation(4);
+      }
+      else if(input == 3) {
+        if(ViewGameSquare.drawOverPopulation(draw, context, width, height) == 1) {
+          draw.overpopulation(3);
+        }
+        else {
+          break;
+        }
+      }
+   }
+	}
+	
+	/**
+	 * gameSquareGraphic is the main function controlling the progress of the game
+   * @param context ApplicationContext representing the application being run
+   * @param width int representing the width of the screen
+   * @param height int representing the height of the screen
+	 */
 	public void gameSquareGraphic(ApplicationContext context,int width, int height) {
 	  var marge = 65;
 	  var input = 0;
@@ -223,23 +273,11 @@ public final class AlgoSquare {
 	  Map<TileSquare, WildlifeToken> picked = new HashMap<>();
 	  for(var i = 0; i < 40; i++) {
 	    input = draw.isOverpopulation();
-	     for(; input == 3 || input == 4; input = draw.isOverpopulation()) {
-	        if(input == 4) {
-	          draw.overpopulation(4);
-	        }
-	        else if(input == 3) {
-	          if(ViewGameSquare.drawOverPopulation(draw, context, width, height) == 1) {
-	            draw.overpopulation(3);
-	          }
-	          else {
-	            break;
-	          }
-	        }
-	     }
-	     input = (currentPlayer == 1) ? ViewGameSquare.drawHead(context, width, height, player1, card, draw, currentPlayer, marge) : ViewGameSquare.drawHead(context, width, height, player2, card, draw, currentPlayer, marge);
-	     picked = draw.pickDraw(input);
-	     makeMoveGraphic(context, width, height, marge, currentPlayer, picked);
-	     currentPlayer = (currentPlayer == 1) ? 2 : 1;
+	    overpopulationMenuGraphic(input, context, width, height);
+      input = (currentPlayer == 1) ? ViewGameSquare.drawHead(context, width, height, player1, card, draw, currentPlayer, marge) : ViewGameSquare.drawHead(context, width, height, player2, card, draw, currentPlayer, marge);
+      picked = draw.pickDraw(input);
+      makeMoveGraphic(context, width, height, marge, currentPlayer, picked);
+      currentPlayer = (currentPlayer == 1) ? 2 : 1;
 	  }
 	  ViewGameSquare.drawWinner(context, width, height, player1, player2, card);
 	  context.pollOrWaitEvent(50000);
